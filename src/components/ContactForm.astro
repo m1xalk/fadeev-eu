@@ -107,6 +107,13 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
         const token = widgetId !== null && window.turnstile ? window.turnstile.getResponse(widgetId) : '';
         if (!token) throw new Error('Turnstile verification is required');
 
+        // Hide the whole form immediately after a valid captcha check.
+        // The user sees a compact progress message instead of the fields and captcha.
+        if (successMessage) successMessage.textContent = sending;
+        content?.setAttribute('hidden', '');
+        confirmation?.removeAttribute('hidden');
+        confirmation?.classList.add('is-sending');
+
         const response = await fetch(form.action, {
           method: 'POST',
           body: new FormData(form),
@@ -120,12 +127,14 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
           window.turnstile.reset(window.turnstileWidgetId);
         }
 
+        confirmation?.classList.remove('is-sending');
         if (successMessage) {
           successMessage.textContent = form.dataset.success || 'Thank you — your message has been sent.';
         }
-        content?.setAttribute('hidden', '');
-        confirmation?.removeAttribute('hidden');
       } catch (error) {
+        confirmation?.classList.remove('is-sending');
+        confirmation?.setAttribute('hidden', '');
+        content?.removeAttribute('hidden');
         if (status) {
           status.classList.remove('is-success');
           status.classList.add('is-error');
@@ -154,6 +163,21 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
     text-align:center;
   }
   .form-confirmation[hidden] { display:none; }
+  .form-confirmation.is-sending {
+    border-color:rgba(36,125,220,.24);
+    background:linear-gradient(135deg,rgba(236,246,255,.96),rgba(247,251,255,.98));
+    color:#1d5ea7;
+  }
+  .form-confirmation.is-sending .confirmation-icon {
+    background:#2379dc;
+    box-shadow:0 10px 22px rgba(35,121,220,.2);
+    animation:confirmation-pulse 1.15s ease-in-out infinite;
+  }
+  .form-confirmation.is-sending .confirmation-title { color:#1d5ea7; }
+  @keyframes confirmation-pulse {
+    0%,100% { transform:scale(1); opacity:1; }
+    50% { transform:scale(.9); opacity:.58; }
+  }
   .confirmation-icon {
     width:42px;
     height:42px;
