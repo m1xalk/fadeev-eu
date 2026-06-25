@@ -33,41 +33,48 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
   data-success={copy.success}
   data-error={copy.error}
 >
-  <div class="field-row">
+  <div class="form-content" data-form-content>
+    <div class="field-row">
+      <label>
+        <span>{copy.nameLabel}</span>
+        <input type="text" name="name" autocomplete="name" placeholder={copy.namePlaceholder} required />
+      </label>
+      <label>
+        <span>{copy.emailLabel}</span>
+        <input type="email" name="email" autocomplete="email" placeholder={copy.emailPlaceholder} required />
+      </label>
+    </div>
+
     <label>
-      <span>{copy.nameLabel}</span>
-      <input type="text" name="name" autocomplete="name" placeholder={copy.namePlaceholder} required />
+      <span>{copy.messageLabel}</span>
+      <textarea name="message" placeholder={copy.messagePlaceholder} required></textarea>
     </label>
-    <label>
-      <span>{copy.emailLabel}</span>
-      <input type="email" name="email" autocomplete="email" placeholder={copy.emailPlaceholder} required />
-    </label>
+
+    <input type="hidden" name="_subject" value="New message from fadeev.eu" />
+    <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <div class="form-bottom">
+      <div class="form-support">
+        {!configured && <p class="setup-note">{copy.setupNote}</p>}
+        {configured && (
+          <div class="captcha-block">
+            <div id="turnstile-widget" data-sitekey={turnstileSiteKey}></div>
+          </div>
+        )}
+      </div>
+
+      <div class="send-column">
+        <button class="send-button" type="submit" disabled>
+          <span data-submit-label>{copy.send}</span> <span aria-hidden="true">↗</span>
+        </button>
+        <p class="form-status" aria-live="polite" data-form-status></p>
+      </div>
+    </div>
   </div>
 
-  <label>
-    <span>{copy.messageLabel}</span>
-    <textarea name="message" placeholder={copy.messagePlaceholder} required></textarea>
-  </label>
-
-  <input type="hidden" name="_subject" value="New message from fadeev.eu" />
-  <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-  <div class="form-bottom">
-    <div class="form-support">
-      {!configured && <p class="setup-note">{copy.setupNote}</p>}
-      {configured && (
-        <div class="captcha-block">
-          <div id="turnstile-widget" data-sitekey={turnstileSiteKey}></div>
-        </div>
-      )}
-    </div>
-
-    <div class="send-column">
-      <button class="send-button" type="submit" disabled>
-        <span data-submit-label>{copy.send}</span> <span aria-hidden="true">↗</span>
-      </button>
-      <p class="form-status" aria-live="polite" data-form-status></p>
-    </div>
+  <div class="form-confirmation" data-form-confirmation hidden role="status" aria-live="polite">
+    <span class="confirmation-icon" aria-hidden="true">✓</span>
+    <p class="confirmation-title" data-success-message>{copy.success}</p>
   </div>
 </form>
 
@@ -82,12 +89,18 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
       const button = form.querySelector('button[type="submit"]');
       const label = form.querySelector('[data-submit-label]');
       const status = form.querySelector('[data-form-status]');
+      const content = form.querySelector('[data-form-content]');
+      const confirmation = form.querySelector('[data-form-confirmation]');
+      const successMessage = form.querySelector('[data-success-message]');
       const defaultLabel = label?.textContent || '';
       const sending = form.dataset.sending || 'Sending…';
 
       button.disabled = true;
       if (label) label.textContent = sending;
-      if (status) status.textContent = '';
+      if (status) {
+        status.classList.remove('is-success', 'is-error');
+        status.textContent = '';
+      }
 
       try {
         const widgetId = window.turnstileWidgetId;
@@ -106,21 +119,59 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
         if (window.turnstile && window.turnstileWidgetId !== null) {
           window.turnstile.reset(window.turnstileWidgetId);
         }
-        if (status) {
-          status.classList.remove('is-error');
-          status.classList.add('is-success');
-          status.textContent = form.dataset.success || 'Thank you — your message has been sent.';
+
+        if (successMessage) {
+          successMessage.textContent = form.dataset.success || 'Thank you — your message has been sent.';
         }
+        content?.setAttribute('hidden', '');
+        confirmation?.removeAttribute('hidden');
       } catch (error) {
         if (status) {
           status.classList.remove('is-success');
           status.classList.add('is-error');
           status.textContent = form.dataset.error || 'The message could not be sent. Please try again later.';
         }
-      } finally {
         button.disabled = false;
         if (label) label.textContent = defaultLabel;
       }
     });
   }
 </script>
+
+<style>
+  .form-content { display:grid; gap:inherit; }
+  .form-confirmation {
+    min-height:156px;
+    display:grid;
+    place-content:center;
+    justify-items:center;
+    gap:12px;
+    padding:28px 22px;
+    border:1px solid rgba(58,157,111,.24);
+    border-radius:14px;
+    color:#155a3e;
+    background:linear-gradient(135deg,rgba(230,249,240,.94),rgba(242,252,247,.96));
+    text-align:center;
+  }
+  .form-confirmation[hidden] { display:none; }
+  .confirmation-icon {
+    width:42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    color:#fff;
+    background:#20a567;
+    box-shadow:0 10px 22px rgba(25,130,79,.23);
+    font-size:1.35rem;
+    font-weight:800;
+  }
+  .confirmation-title {
+    max-width:350px;
+    margin:0;
+    color:#155a3e;
+    font-size:1rem;
+    font-weight:800;
+    line-height:1.45;
+  }
+</style>
