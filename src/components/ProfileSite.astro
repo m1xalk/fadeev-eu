@@ -373,4 +373,21 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
     .contact-form textarea { min-height:50px; }
     .send-button { min-height:34px; }
   }
+
+
+  /* Desktop visual scale: at browser zoom 100%, match the previous 110% view. */
+  @media (min-width:781px) {
+    .shell {
+      zoom:1.1;
+    }
+  }
+
+  /* Avoid horizontal overflow on narrower desktop windows. */
+  @media (min-width:781px) and (max-width:1450px) {
+    .shell {
+      zoom:1;
+      width:min(1355px, calc(100vw - 42px));
+    }
+  }
+
 </style>
