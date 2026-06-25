@@ -53,19 +53,19 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
   <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
   <div class="form-bottom">
-    {!configured && <p class="setup-note">{copy.setupNote}</p>}
-
-    <div class="send-column">
-      <button class="send-button" type="submit" disabled>
-        <span data-submit-label>{copy.send}</span> <span aria-hidden="true">↗</span>
-      </button>
-
+    <div class="form-support">
+      {!configured && <p class="setup-note">{copy.setupNote}</p>}
       {configured && (
         <div class="captcha-block">
           <div id="turnstile-widget" data-sitekey={turnstileSiteKey}></div>
         </div>
       )}
+    </div>
 
+    <div class="send-column">
+      <button class="send-button" type="submit" disabled>
+        <span data-submit-label>{copy.send}</span> <span aria-hidden="true">↗</span>
+      </button>
       <p class="form-status" aria-live="polite" data-form-status></p>
     </div>
   </div>
