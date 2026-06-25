@@ -1,0 +1,223 @@
+---
+import { getEntry } from 'astro:content';
+import ContactForm from './ContactForm.astro';
+
+type Language = 'en' | 'es' | 'de';
+interface Props { lang: Language }
+const { lang } = Astro.props;
+const profile = await getEntry('profile', 'site');
+if (!profile) throw new Error('Missing src/content/profile/site.yaml');
+
+const data = profile.data;
+const copy = data.languages[lang];
+const endpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT || '';
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '';
+const pathFor = (language: Language) => language === 'en' ? '/' : `/${language}/`;
+const canonical = new URL(pathFor(lang), data.siteUrl).toString();
+const imageUrl = new URL(data.photo, data.siteUrl).toString();
+const alternate = (language: Language) => new URL(pathFor(language), data.siteUrl).toString();
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={copy.metaDescription} />
+    <meta name="theme-color" content="#06152f" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={alternate('en')} />
+    <link rel="alternate" hreflang="es" href={alternate('es')} />
+    <link rel="alternate" hreflang="de" href={alternate('de')} />
+    <link rel="alternate" hreflang="x-default" href={alternate('en')} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={copy.pageTitle} />
+    <meta property="og:description" content={copy.metaDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:locale" content={copy.locale} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={copy.pageTitle} />
+    <meta name="twitter:description" content={copy.metaDescription} />
+    <meta name="twitter:image" content={imageUrl} />
+    <title>{copy.pageTitle}</title>
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: data.name,
+      image: imageUrl,
+      url: data.siteUrl,
+      sameAs: [data.linkedinUrl],
+      jobTitle: copy.role,
+      description: copy.metaDescription,
+      knowsAbout: ['SAP S/4HANA', 'SAP FICO', 'SAP FSCM', 'SAP Treasury', 'Payments'],
+      address: { '@type': 'PostalAddress', addressLocality: 'Basel', addressCountry: 'CH' },
+    })} />
+
+    {turnstileSiteKey && (
+      <>
+        <link rel="preconnect" href="https://challenges.cloudflare.com" />
+        <script is:inline>
+          window.turnstileWidgetId = null;
+          window.turnstileReady = function () {
+            const container = document.getElementById('turnstile-widget');
+            const form = document.querySelector('[data-contact-form]');
+            const button = form?.querySelector('button[type="submit"]');
+            if (!container || !form || !button || !window.turnstile) return;
+
+            window.turnstileWidgetId = window.turnstile.render('#turnstile-widget', {
+              sitekey: container.dataset.sitekey,
+              theme: 'light',
+              size: 'flexible',
+              callback: function () {
+                button.disabled = false;
+              },
+              'expired-callback': function () {
+                button.disabled = true;
+              },
+              'error-callback': function () {
+                button.disabled = true;
+              },
+            });
+          };
+        </script>
+        <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=turnstileReady" defer></script>
+      </>
+    )}
+  </head>
+  <body>
+    <main class="page">
+      <article class="shell" aria-labelledby="profile-name">
+        <header class="topbar">
+          <p class="site-label">{copy.siteLabel}</p>
+          <details class="language">
+            <summary aria-label="Choose language">
+              <span>{copy.code}</span>
+              <svg viewBox="0 0 16 16" aria-hidden="true" fill="none"><path d="M3 6.25 8 11l5-4.75" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </summary>
+            <ul aria-label="Language">
+              {(['en', 'es', 'de'] as Language[]).map((language) => (
+                <li>
+                  <a href={pathFor(language)} aria-current={language === lang ? 'page' : undefined}>
+                    <span>{data.languages[language].nativeName}</span><small>{data.languages[language].code}</small>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </header>
+
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">{copy.eyebrow}</p>
+            <h1 id="profile-name">Oleg<br />Fadeev</h1>
+            <p class="role">{copy.role}</p>
+            <p class="summary">{copy.summary}</p>
+            <ul class="focus-list" aria-label="Areas of expertise">
+              {copy.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+            <div class="hero-links">
+              <a class="primary-link" href={data.linkedinUrl} target="_blank" rel="noopener noreferrer">{copy.linkedin} <span aria-hidden="true">↗</span></a>
+              <a class="contact-jump" href="#contact">{copy.contactJump}</a>
+            </div>
+          </div>
+
+          <div class="portrait-stage" aria-label={`Portrait of ${data.name}`}>
+            <div class="portrait-backdrop" aria-hidden="true"></div>
+            <div class="portrait-frame"><img src={data.photo} width="600" height="600" alt={`Portrait of ${data.name}`} /></div>
+            <div class="portrait-chip"><strong>{copy.basedIn}</strong><span set:html={copy.locationHtml}></span></div>
+          </div>
+        </section>
+
+        <section class="contact" id="contact" aria-labelledby="contact-title">
+          <div>
+            <p class="eyebrow">{copy.contactEyebrow}</p>
+            <h2 id="contact-title">{copy.contactTitle}</h2>
+            <p>{copy.contactText}</p>
+          </div>
+          <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} />
+        </section>
+      </article>
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root { --navy:#06152f; --blue:#2b8cff; --cyan:#6bdcff; --paper:#f7fbff; --ink:#0a2853; --shadow:0 34px 90px rgba(1,11,31,.36); font-synthesis:none; }
+  * { box-sizing:border-box; }
+  html { min-width:320px; scroll-behavior:smooth; background:var(--navy); }
+  body { min-width:320px; min-height:100vh; margin:0; color:#fff; font-family:"Manrope",ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:radial-gradient(circle at 12% 14%,rgba(52,151,255,.34),transparent 29rem),radial-gradient(circle at 85% 86%,rgba(33,181,255,.15),transparent 31rem),linear-gradient(125deg,#06152f 0%,#092e67 49%,#061630 100%); }
+  a { color:inherit; }
+  .page { width:min(1760px,100%); min-height:100svh; margin:0 auto; padding:clamp(12px,1.8vw,32px); display:grid; align-items:center; }
+  .shell { position:relative; overflow:hidden; border:1px solid rgba(174,213,255,.25); border-radius:34px; background:linear-gradient(145deg,rgba(8,37,80,.92),rgba(4,22,49,.94)); box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.06); isolation:isolate; }
+  .shell::before,.shell::after { content:""; position:absolute; z-index:-1; border-radius:50%; pointer-events:none; }
+  .shell::before { width:48rem; height:48rem; top:-34rem; right:-26rem; border:1px solid rgba(115,190,255,.22); box-shadow:0 0 0 56px rgba(115,190,255,.035),0 0 0 112px rgba(115,190,255,.02); }
+  .shell::after { width:26rem; height:26rem; left:-16rem; bottom:9rem; background:radial-gradient(circle,rgba(56,176,255,.21),transparent 66%); filter:blur(4px); }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:28px clamp(34px,5.4vw,94px) 0; }
+  .site-label { margin:0; color:#8fd3ff; font-family:"DM Mono",ui-monospace,monospace; font-size:.69rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; }
+  .language { position:relative; z-index:5; }
+  .language summary { display:inline-flex; align-items:center; gap:9px; min-height:42px; padding:0 14px; border:1px solid rgba(164,214,255,.26); border-radius:999px; color:#eaf7ff; background:rgba(4,28,64,.5); box-shadow:inset 0 1px 0 rgba(255,255,255,.05); font:700 .72rem "DM Mono",ui-monospace,monospace; letter-spacing:.07em; cursor:pointer; list-style:none; }
+  .language summary::-webkit-details-marker { display:none; }
+  .language summary:hover { border-color:rgba(114,209,255,.8); background:rgba(8,49,103,.72); }
+  .language summary svg { width:14px; height:14px; transition:transform .2s ease; }
+  .language[open] summary svg { transform:rotate(180deg); }
+  .language ul { position:absolute; top:calc(100% + 10px); right:0; width:164px; margin:0; padding:7px; list-style:none; border:1px solid rgba(164,214,255,.21); border-radius:15px; background:rgba(4,22,49,.96); box-shadow:0 18px 42px rgba(0,0,0,.31); backdrop-filter:blur(12px); }
+  .language a { width:100%; display:flex; align-items:center; justify-content:space-between; padding:10px 11px; border-radius:10px; color:#dcefff; text-decoration:none; font-size:.78rem; font-weight:600; }
+  .language a:hover,.language a[aria-current="page"] { color:#fff; background:rgba(82,171,255,.16); }
+  .language small { color:#72caff; font:500 .66rem "DM Mono",monospace; }
+  .hero { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(360px,.65fr); align-items:center; gap:clamp(48px,6vw,112px); padding:clamp(54px,5.4vw,96px) clamp(34px,5.4vw,94px) clamp(64px,5.2vw,92px); }
+  .hero-copy { max-width:900px; }
+  .eyebrow { margin:0 0 18px; color:#8fd3ff; font-family:"DM Mono",ui-monospace,monospace; font-size:.71rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase; }
+  h1 { max-width:960px; margin:0; color:#fff; font-size:clamp(4rem,6.7vw,8.5rem); font-weight:800; letter-spacing:-.086em; line-height:.87; }
+  .role { max-width:780px; margin:26px 0 0; color:#eef7ff; font-size:clamp(1.28rem,1.85vw,1.88rem); font-weight:700; letter-spacing:-.035em; line-height:1.16; }
+  .summary { max-width:800px; margin:17px 0 0; color:#b9cae0; font-size:clamp(1rem,1.16vw,1.15rem); font-weight:500; line-height:1.72; }
+  .focus-list { display:flex; flex-wrap:wrap; gap:9px; margin:28px 0 0; padding:0; list-style:none; }
+  .focus-list li { padding:9px 12px; border:1px solid rgba(172,215,255,.2); border-radius:999px; color:#dfefff; background:rgba(255,255,255,.045); font-family:"DM Mono",ui-monospace,monospace; font-size:.68rem; letter-spacing:.05em; }
+  .hero-links { display:flex; flex-wrap:wrap; gap:14px; margin:34px 0 0; }
+  .primary-link,.contact-jump { display:inline-flex; align-items:center; justify-content:center; min-height:52px; padding:14px 18px; border-radius:14px; font-size:.9rem; font-weight:800; text-decoration:none; transition:transform .18s ease,box-shadow .18s ease,background .18s ease; }
+  .primary-link { gap:10px; color:#f5fbff; background:linear-gradient(135deg,#258eff,#1265cd); border:1px solid rgba(154,215,255,.28); box-shadow:0 12px 28px rgba(0,0,0,.24),0 0 28px rgba(47,139,255,.2); }
+  .contact-jump { color:#a5d7ff; border:1px solid rgba(164,214,255,.2); background:rgba(255,255,255,.035); }
+  .primary-link:hover,.contact-jump:hover { transform:translateY(-2px); }
+  .contact-jump:hover { color:#fff; background:rgba(100,184,255,.13); }
+  .portrait-stage { position:relative; min-height:clamp(360px,28vw,470px); display:grid; place-items:center; }
+  .portrait-backdrop { position:absolute; width:clamp(330px,27vw,440px); height:clamp(330px,27vw,440px); border-radius:50%; background:radial-gradient(circle at 35% 28%,rgba(92,214,255,.28),transparent 37%),radial-gradient(circle at 64% 72%,rgba(33,125,255,.22),transparent 47%),rgba(13,61,124,.28); border:1px solid rgba(155,212,255,.25); box-shadow:0 0 0 16px rgba(83,180,255,.055),0 0 0 34px rgba(83,180,255,.025),inset 0 1px 0 rgba(255,255,255,.07); }
+  .portrait-frame { position:relative; z-index:1; width:clamp(280px,23vw,365px); aspect-ratio:1; overflow:hidden; border:7px solid rgba(162,222,255,.96); border-radius:50%; background:#0a254f; box-shadow:0 0 0 9px rgba(26,95,180,.46),0 26px 52px rgba(0,0,0,.38),0 0 34px rgba(57,160,255,.2); }
+  .portrait-frame::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 57%,rgba(1,13,36,.25)); pointer-events:none; }
+  .portrait-frame img { width:100%; height:100%; object-fit:cover; object-position:center 13%; }
+  .portrait-chip { position:absolute; z-index:2; right:-8px; bottom:12px; max-width:200px; padding:13px 15px; border:1px solid rgba(204,234,255,.23); border-radius:15px; color:#ebf8ff; background:rgba(6,28,61,.86); box-shadow:0 15px 30px rgba(0,0,0,.25); backdrop-filter:blur(12px); font-family:"DM Mono",ui-monospace,monospace; font-size:.67rem; line-height:1.5; letter-spacing:.04em; }
+  .portrait-chip strong { display:block; color:#65d8ff; font-size:.66rem; text-transform:uppercase; letter-spacing:.1em; }
+  .contact { display:grid; grid-template-columns:minmax(240px,.72fr) minmax(0,1.28fr); gap:clamp(28px,5vw,64px); align-items:center; padding:clamp(38px,4.5vw,58px) clamp(24px,5vw,72px) clamp(42px,5vw,62px); color:var(--ink); background:var(--paper); border-top:1px solid rgba(180,214,246,.78); }
+  .contact .eyebrow { margin-bottom:10px; color:#1978cf; }
+  .contact h2 { max-width:440px; margin:0; color:#0a2a59; font-size:clamp(1.9rem,3.1vw,3.2rem); font-weight:800; letter-spacing:-.075em; line-height:.98; }
+  .contact > div > p:not(.eyebrow) { max-width:365px; margin:14px 0 0; color:#60799c; font-size:.92rem; line-height:1.62; }
+  .contact-form { display:grid; gap:14px; padding:22px; border:1px solid #dce9f7; border-radius:19px; background:#fff; box-shadow:0 16px 38px rgba(24,69,119,.08),inset 0 1px 0 rgba(255,255,255,.86); }
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .contact-form label { display:grid; gap:7px; color:#456486; font-size:.7rem; font-weight:800; letter-spacing:.04em; }
+  .contact-form input,.contact-form textarea { width:100%; border:1px solid #d5e4f5; border-radius:13px; outline:none; color:#153c69; background:#f7fbff; font:inherit; font-size:.92rem; transition:box-shadow .16s ease,border-color .16s ease,background .16s ease; }
+  .contact-form input::placeholder,.contact-form textarea::placeholder { color:#9bb0c9; }
+  .contact-form input { min-height:48px; padding:0 13px; }
+  .contact-form textarea { min-height:96px; padding:12px 13px; resize:vertical; }
+  .contact-form input:focus,.contact-form textarea:focus { border-color:#4fa9fb; background:#fff; box-shadow:0 0 0 4px rgba(79,169,251,.14); }
+  .form-bottom { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .captcha-block { display:grid; gap:8px; }
+  .secure-note { display:inline-flex; align-items:center; gap:8px; max-width:400px; color:#6d86a7; font-size:.76rem; line-height:1.4; }
+  .secure-note::before { content:"⌁"; display:grid; flex:0 0 auto; width:22px; height:22px; place-items:center; border-radius:7px; color:#1676cf; background:#eaf5ff; border:1px solid #cfe7fb; font-weight:800; }
+  .send-column { display:grid; justify-items:end; gap:8px; }
+  .send-button { min-height:48px; padding:0 18px; border:1px solid rgba(30,126,227,.2); border-radius:13px; color:#fff; background:linear-gradient(135deg,#258eff,#1265cd); box-shadow:0 10px 22px rgba(0,82,185,.22); font:800 .86rem "Manrope",sans-serif; cursor:pointer; transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease; }
+  .send-button:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 15px 28px rgba(0,82,185,.29); }
+  .send-button:disabled { cursor:not-allowed; opacity:.55; box-shadow:none; }
+  .form-status { max-width:250px; margin:0; text-align:right; font-size:.75rem; line-height:1.35; }
+  .form-status.is-success { color:#137652; }
+  .form-status.is-error { color:#b22935; }
+  .honeypot { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; }
+  @media (min-width:1180px) { .focus-list { gap:11px; } .focus-list li { padding:10px 14px; font-size:.71rem; } .field-row { gap:16px; } }
+  @media (max-width:780px) { .page { padding:0; align-items:stretch; } .shell { min-height:100svh; border-radius:0; border-inline:0; } .topbar { padding:20px 20px 0; } .site-label { font-size:.61rem; letter-spacing:.13em; } .language summary { min-height:38px; padding:0 12px; } .hero { grid-template-columns:1fr; padding:46px 20px 52px; gap:28px; } .hero-copy { order:2; } .portrait-stage { order:1; min-height:250px; } h1 { font-size:clamp(3.15rem,15vw,5.2rem); } .portrait-frame { width:215px; } .portrait-backdrop { width:255px; height:255px; } .portrait-chip { right:0; bottom:5px; } .contact { grid-template-columns:1fr; padding:38px 20px; } .field-row { grid-template-columns:1fr; } .form-bottom { align-items:stretch; flex-direction:column; } .send-column { justify-items:stretch; } .send-button { width:100%; } .form-status { max-width:none; text-align:left; } .contact-form { padding:16px; } }
+  @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }
+</style>

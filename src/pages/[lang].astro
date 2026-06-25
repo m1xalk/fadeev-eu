@@ -1,0 +1,11 @@
+---
+import ProfileSite from '../components/ProfileSite.astro';
+
+export function getStaticPaths() {
+  return ['es', 'de'].map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang;
+if (lang !== 'es' && lang !== 'de') throw new Error('Unsupported language route');
+---
+<ProfileSite lang={lang} />

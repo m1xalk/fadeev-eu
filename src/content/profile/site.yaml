@@ -1,0 +1,115 @@
+# Edit all visible website text here. Astro converts this content to normal HTML
+# at build time, so the published pages remain indexable by search engines.
+name: Oleg Fadeev
+photo: /images/oleg-linkedin.jpg
+linkedinUrl: https://www.linkedin.com/in/olegfadeev
+siteUrl: https://fadeev.eu
+
+languages:
+  en:
+    code: EN
+    nativeName: English
+    locale: en_US
+    pageTitle: Oleg Fadeev | SAP S/4HANA FICO & FSCM Consultant
+    metaDescription: Oleg Fadeev is a senior SAP S/4HANA FICO and FSCM consultant with international experience in finance transformation, treasury and payments.
+    siteLabel: SAP finance consulting
+    eyebrow: SAP S/4HANA · FINANCE TRANSFORMATION
+    role: Senior SAP S/4HANA FICO & FSCM Consultant
+    summary: SAP finance consultant with 10+ years of international experience in FICO, FSCM, treasury, payments and financial transformation programmes.
+    tags:
+      - FICO
+      - FSCM
+      - Payments
+      - Treasury
+      - S/4HANA
+    linkedin: View LinkedIn profile
+    contactJump: Contact by email ↓
+    basedIn: Based in
+    locationHtml: Basel Metropolitan Area<br />Europe
+    contactEyebrow: Contact
+    contactTitle: Let’s talk about your SAP challenge.
+    contactText: Send a brief message. The secure contact form is used only for professional enquiries.
+    nameLabel: Your name
+    emailLabel: Email
+    messageLabel: Message
+    namePlaceholder: Your name
+    emailPlaceholder: name@company.com
+    messagePlaceholder: How can I help?
+    secureNote: Protected by Cloudflare Turnstile.
+    setupNote: The secure form will be activated after Formspree and Turnstile keys are connected.
+    send: Send message
+    sending: Sending…
+    success: Thank you — your message has been sent.
+    error: The message could not be sent. Please try again later.
+
+  es:
+    code: ES
+    nativeName: Español
+    locale: es_ES
+    pageTitle: Oleg Fadeev | Consultor SAP S/4HANA FICO y FSCM
+    metaDescription: Oleg Fadeev es consultor senior de SAP S/4HANA FICO y FSCM con experiencia internacional en transformación financiera, tesorería y pagos.
+    siteLabel: Consultoría SAP financiera
+    eyebrow: SAP S/4HANA · TRANSFORMACIÓN FINANCIERA
+    role: Consultor Senior SAP S/4HANA FICO y FSCM
+    summary: Consultor SAP de finanzas con más de 10 años de experiencia internacional en FICO, FSCM, tesorería, pagos y programas de transformación financiera.
+    tags:
+      - FICO
+      - FSCM
+      - Pagos
+      - Tesorería
+      - S/4HANA
+    linkedin: Ver perfil de LinkedIn
+    contactJump: Contactar por correo ↓
+    basedIn: Ubicación
+    locationHtml: Área metropolitana de Basilea<br />Europa
+    contactEyebrow: Contacto
+    contactTitle: Hablemos de tu reto SAP.
+    contactText: Envía un mensaje breve. El formulario seguro se utiliza solo para consultas profesionales.
+    nameLabel: Nombre
+    emailLabel: Correo electrónico
+    messageLabel: Mensaje
+    namePlaceholder: Tu nombre
+    emailPlaceholder: nombre@empresa.com
+    messagePlaceholder: ¿Cómo puedo ayudarte?
+    secureNote: Protegido por Cloudflare Turnstile.
+    setupNote: El formulario seguro se activará después de conectar Formspree y las claves de Turnstile.
+    send: Enviar mensaje
+    sending: Enviando…
+    success: Gracias — tu mensaje se ha enviado.
+    error: No se pudo enviar el mensaje. Inténtalo de nuevo más tarde.
+
+  de:
+    code: DE
+    nativeName: Deutsch
+    locale: de_DE
+    pageTitle: Oleg Fadeev | Senior SAP S/4HANA FICO & FSCM Berater
+    metaDescription: Oleg Fadeev ist Senior SAP S/4HANA FICO und FSCM Berater mit internationaler Erfahrung in Finanztransformation, Treasury und Zahlungsverkehr.
+    siteLabel: SAP-Finanzberatung
+    eyebrow: SAP S/4HANA · FINANZTRANSFORMATION
+    role: Senior SAP S/4HANA FICO & FSCM Berater
+    summary: SAP-Finanzberater mit mehr als 10 Jahren internationaler Erfahrung in FICO, FSCM, Treasury, Zahlungsverkehr und Finanztransformationsprogrammen.
+    tags:
+      - FICO
+      - FSCM
+      - Zahlungsverkehr
+      - Treasury
+      - S/4HANA
+    linkedin: LinkedIn-Profil ansehen
+    contactJump: Per E-Mail kontaktieren ↓
+    basedIn: Standort
+    locationHtml: Metropolregion Basel<br />Europa
+    contactEyebrow: Kontakt
+    contactTitle: Lassen Sie uns über Ihre SAP-Herausforderung sprechen.
+    contactText: Senden Sie eine kurze Nachricht. Das sichere Kontaktformular ist nur für professionelle Anfragen vorgesehen.
+    nameLabel: Ihr Name
+    emailLabel: E-Mail
+    messageLabel: Nachricht
+    namePlaceholder: Ihr Name
+    emailPlaceholder: name@unternehmen.com
+    messagePlaceholder: Wie kann ich helfen?
+    secureNote: Geschützt durch Cloudflare Turnstile.
+    setupNote: Das sichere Formular wird nach dem Verbinden von Formspree und den Turnstile-Schlüsseln aktiviert.
+    send: Nachricht senden
+    sending: Wird gesendet…
+    success: Vielen Dank — Ihre Nachricht wurde gesendet.
+    error: Die Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.

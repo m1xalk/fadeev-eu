@@ -1,0 +1,128 @@
+---
+interface Copy {
+  nameLabel: string;
+  emailLabel: string;
+  messageLabel: string;
+  namePlaceholder: string;
+  emailPlaceholder: string;
+  messagePlaceholder: string;
+  secureNote: string;
+  setupNote: string;
+  send: string;
+  sending: string;
+  success: string;
+  error: string;
+}
+
+interface Props {
+  endpoint: string;
+  turnstileSiteKey: string;
+  copy: Copy;
+}
+
+const { endpoint, turnstileSiteKey, copy } = Astro.props;
+const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSiteKey.length > 0;
+---
+
+<form
+  class="contact-form"
+  action={configured ? endpoint : '#contact'}
+  method="POST"
+  data-contact-form
+  data-configured={String(configured)}
+  data-sending={copy.sending}
+  data-success={copy.success}
+  data-error={copy.error}
+>
+  <div class="field-row">
+    <label>
+      <span>{copy.nameLabel}</span>
+      <input type="text" name="name" autocomplete="name" placeholder={copy.namePlaceholder} required />
+    </label>
+    <label>
+      <span>{copy.emailLabel}</span>
+      <input type="email" name="email" autocomplete="email" placeholder={copy.emailPlaceholder} required />
+    </label>
+  </div>
+
+  <label>
+    <span>{copy.messageLabel}</span>
+    <textarea name="message" placeholder={copy.messagePlaceholder} required></textarea>
+  </label>
+
+  <input type="hidden" name="_subject" value="New message from fadeev.eu" />
+  <input class="honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <div class="form-bottom">
+    {
+      configured ? (
+        <div class="captcha-block">
+          <div id="turnstile-widget" data-sitekey={turnstileSiteKey}></div>
+          <span class="secure-note">{copy.secureNote}</span>
+        </div>
+      ) : (
+        <span class="secure-note">{copy.setupNote}</span>
+      )
+    }
+    <div class="send-column">
+      <button class="send-button" type="submit" disabled>
+        <span data-submit-label>{copy.send}</span> <span aria-hidden="true">↗</span>
+      </button>
+      <p class="form-status" aria-live="polite" data-form-status></p>
+    </div>
+  </div>
+</form>
+
+<script is:inline>
+  const form = document.querySelector('[data-contact-form]');
+
+  if (form && form.dataset.configured === 'true') {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const button = form.querySelector('button[type="submit"]');
+      const label = form.querySelector('[data-submit-label]');
+      const status = form.querySelector('[data-form-status]');
+      const defaultLabel = label?.textContent || '';
+      const sending = form.dataset.sending || 'Sending…';
+
+      button.disabled = true;
+      if (label) label.textContent = sending;
+      if (status) status.textContent = '';
+
+      try {
+        const widgetId = window.turnstileWidgetId;
+        const token = widgetId !== null && window.turnstile ? window.turnstile.getResponse(widgetId) : '';
+        if (!token) throw new Error('Turnstile verification is required');
+
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+
+        if (!response.ok) throw new Error('Form submission failed');
+
+        form.reset();
+        if (window.turnstile && window.turnstileWidgetId !== null) {
+          window.turnstile.reset(window.turnstileWidgetId);
+        }
+        if (status) {
+          status.classList.remove('is-error');
+          status.classList.add('is-success');
+          status.textContent = form.dataset.success || 'Thank you — your message has been sent.';
+        }
+      } catch (error) {
+        if (status) {
+          status.classList.remove('is-success');
+          status.classList.add('is-error');
+          status.textContent = form.dataset.error || 'The message could not be sent. Please try again later.';
+        }
+      } finally {
+        button.disabled = false;
+        if (label) label.textContent = defaultLabel;
+      }
+    });
+  }
+</script>
