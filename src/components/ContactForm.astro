@@ -58,7 +58,6 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
       configured ? (
         <div class="captcha-block">
           <div id="turnstile-widget" data-sitekey={turnstileSiteKey}></div>
-          <span class="secure-note">{copy.secureNote}</span>
         </div>
       ) : (
         <span class="secure-note">{copy.setupNote}</span>
