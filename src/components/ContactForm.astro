@@ -149,6 +149,8 @@ const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSi
 
 <style>
   .form-content { display:grid; gap:inherit; }
+  /* Author CSS overrides the browser hidden rule, so enforce it here. */
+  .form-content[hidden] { display:none !important; }
   .form-confirmation {
     min-height:156px;
     display:grid;
