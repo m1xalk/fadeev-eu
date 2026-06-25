@@ -320,13 +320,13 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
   /* Wide desktop layout: keeps the complete card visible without vertical scrolling. */
   @media (min-width:781px) {
     .page { padding:10px 24px; }
-    .shell { width:min(1120px, calc(100vw - 48px)); border-radius:23px; }
-    .topbar { padding:14px 52px 0; }
+    .shell { width:min(1232px, calc(100vw - 48px)); border-radius:23px; }
+    .topbar { padding:14px 57px 0; }
     .hero {
       min-height:412px;
       grid-template-columns:minmax(0,1.16fr) minmax(290px,.84fr);
       gap:28px;
-      padding:22px 52px 24px;
+      padding:22px 57px 24px;
     }
     .hero-copy { max-width:540px; }
     h1 { max-width:510px; font-size:clamp(3.05rem,4.15vw,4.25rem); line-height:.9; }
@@ -342,7 +342,7 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
       grid-template-columns:minmax(240px,.67fr) minmax(0,1.33fr);
       gap:42px;
       min-height:248px;
-      padding:25px 52px 28px;
+      padding:25px 57px 28px;
     }
     .contact h2 { max-width:320px; font-size:clamp(1.7rem,2.15vw,2.28rem); }
     .contact > div > p:not(.eyebrow) { max-width:300px; margin-top:10px; font-size:.71rem; }
