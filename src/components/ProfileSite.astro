@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import ContactForm from './ContactForm.astro';
+import CookieNotice from './CookieNotice.astro';
 
 type Language = 'en' | 'es' | 'de';
 interface Props { lang: Language }
@@ -17,6 +18,13 @@ const canonical = new URL(pathFor(lang), data.siteUrl).toString();
 const imageUrl = new URL(data.photo, data.siteUrl).toString();
 const alternate = (language: Language) => new URL(pathFor(language), data.siteUrl).toString();
 const locationPlain = copy.locationHtml.replace(/<br\s*\/?\s*>/gi, ' · ').replace(/&nbsp;/g, ' ');
+const legalLinks = {
+  en: { privacy: 'Privacy Policy', legal: 'Legal Notice' },
+  es: { privacy: 'Política de privacidad', legal: 'Aviso legal' },
+  de: { privacy: 'Datenschutzerklärung', legal: 'Impressum' },
+}[lang];
+const privacyHref = lang === 'en' ? '/privacy/' : `/${lang}/privacy/`;
+const legalHref = lang === 'en' ? '/legal/' : `/${lang}/legal/`;
 ---
 
 <!doctype html>
@@ -141,10 +149,19 @@ const locationPlain = copy.locationHtml.replace(/<br\s*\/?\s*>/gi, ' · ').repla
             <h2 id="contact-title">{copy.contactTitle}</h2>
             <p>{copy.contactText}</p>
           </div>
-          <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} />
+          <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} lang={lang} />
         </section>
+
+        <footer class="legal-footer" aria-label="Legal links">
+          <span>© 2026 Oleg Fadeev</span>
+          <nav>
+            <a href={privacyHref}>{legalLinks.privacy}</a>
+            <a href={legalHref}>{legalLinks.legal}</a>
+          </nav>
+        </footer>
       </article>
     </main>
+    <CookieNotice lang={lang} />
   </body>
 </html>
 
@@ -490,5 +507,25 @@ const locationPlain = copy.locationHtml.replace(/<br\s*\/?\s*>/gi, ' · ').repla
     .form-bottom { flex-direction:column; align-items:stretch; }
     .form-support,.captcha-block,#turnstile-widget { width:100%; justify-items:start; }
     .send-column { width:100%; min-width:0; margin-top:0; justify-items:stretch; }
+  }
+
+
+  .legal-footer { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 57px 18px; color:#8da8c4; background:#f4f6f9; border-top:1px solid rgba(190,214,238,.72); font-size:.72rem; }
+  .legal-footer nav { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .legal-footer a { color:#315f90; text-decoration:none; font-weight:800; }
+  .legal-footer a:hover { color:#1265cd; text-decoration:underline; }
+  .privacy-check { grid-template-columns:auto 1fr !important; align-items:flex-start; gap:9px !important; color:#60799c !important; font-size:.66rem !important; line-height:1.42; letter-spacing:0 !important; font-weight:600 !important; }
+  .privacy-check input { width:15px !important; height:15px !important; min-height:15px !important; margin:2px 0 0; padding:0 !important; accent-color:#1978cf; }
+  .privacy-check a { color:#1265cd; font-weight:800; text-decoration:underline; text-underline-offset:2px; }
+  .contact-form [hidden] { display:none !important; }
+  .contact-form [data-form-fields] { display:grid; gap:10px; }
+  .form-message { min-height:184px; display:grid; place-items:center; align-content:center; gap:12px; text-align:center; color:#173d68; }
+  .form-message span { display:grid; place-items:center; width:44px; height:44px; border-radius:50%; color:#fff; background:linear-gradient(135deg,#258eff,#1265cd); font-size:1.3rem; font-weight:900; box-shadow:0 12px 28px rgba(0,82,185,.24); }
+  .form-message strong { max-width:340px; color:#143b67; font-size:1.05rem; line-height:1.35; }
+  .form-message--success span { background:linear-gradient(135deg,#23b985,#137652); }
+
+  @media (max-width:780px) {
+    .legal-footer { padding:12px 24px 18px; align-items:flex-start; flex-direction:column; }
+    .legal-footer nav { gap:12px; }
   }
 </style>
