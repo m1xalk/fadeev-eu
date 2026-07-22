@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fadeev.eu/sitemap-index.xml
