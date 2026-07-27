@@ -11,27 +11,29 @@ const data = profile.data;
 
 const pathFor = (language: Language) => language === 'en' ? '/privacy/' : `/${language}/privacy/`;
 const backHref = lang === 'en' ? '/' : `/${lang}/`;
+const emailToken = '[[privacy-email]]';
 
 const content = {
   en: {
     title: 'Privacy & Legal Notice',
-    updated: 'Last updated: 22 July 2026',
+    updated: 'Last updated: 27 July 2026',
     intro: 'This page combines the privacy information and legal notice for the professional landing page fadeev.eu.',
     privacyTitle: 'Privacy information',
     legalTitle: 'Legal notice',
+    emailFallback: 'Show email address',
     privacySections: [
-      ['Controller', 'The controller responsible for this website is Oleg Fadeev. Contact for privacy requests: oleg.fadeev@gmail.com.'],
+      ['Controller', `The controller responsible for this website is Oleg Fadeev. Contact for privacy requests: ${emailToken}.`],
       ['Data collected through the contact form', 'When you send a message, the website asks for your name, email address and message text. These details are needed to reply to your enquiry.'],
       ['Purpose and legal basis', 'The data is processed to respond to your enquiry and to protect the contact form from spam and abuse. The legal basis is legitimate interest in responding to incoming professional enquiries and, where applicable, steps prior to entering into a contract.'],
       ['Service providers', 'The contact form is processed by Formspree, which receives the submitted form data, stores the submission in its dashboard and forwards the message by email. Cloudflare Turnstile is used to verify that the form is not being submitted by an automated bot. Your email provider may also process and store the resulting email message.'],
       ['International transfers', 'Some service providers may process technical or form data outside the European Economic Area. Where required, this is handled through the providers’ own data protection frameworks, contractual safeguards or applicable transfer mechanisms.'],
       ['Storage period', 'Contact messages are kept only for as long as needed to reply and manage the professional enquiry, normally up to 12 months after the last contact, unless a longer retention period is required for legal, contractual or legitimate business reasons.'],
-      ['Your rights', 'You may request access, rectification, deletion, restriction of processing or object to processing by contacting oleg.fadeev@gmail.com. You may also lodge a complaint with your local data protection authority.'],
+      ['Your rights', `You may request access, rectification, deletion, restriction of processing or object to processing by contacting ${emailToken}. You may also lodge a complaint with your local data protection authority.`],
       ['Cookies and tracking', 'This website does not use advertising cookies or marketing analytics. Cloudflare Turnstile may process technical browser data for security and anti-spam purposes.'],
     ],
     legalSections: [
       ['Website owner', 'Oleg Fadeev'],
-      ['Contact', 'Email: oleg.fadeev@gmail.com'],
+      ['Contact', `Email: ${emailToken}`],
       ['Professional activity', 'SAP S/4HANA FICO / FSCM consulting and finance transformation services.'],
       ['Address', 'Vogesenstrasse 33, 4056 Basel, Switzerland.'],
       ['VAT', 'No VAT number.'],
@@ -43,23 +45,24 @@ const content = {
   },
   es: {
     title: 'Privacidad y aviso legal',
-    updated: 'Última actualización: 22 de julio de 2026',
+    updated: 'Última actualización: 27 de julio de 2026',
     intro: 'Esta página combina la información de privacidad y el aviso legal de la landing page profesional fadeev.eu.',
     privacyTitle: 'Información de privacidad',
     legalTitle: 'Aviso legal',
+    emailFallback: 'Mostrar dirección de correo',
     privacySections: [
-      ['Responsable del tratamiento', 'El responsable de este sitio web es Oleg Fadeev. Contacto para solicitudes de privacidad: oleg.fadeev@gmail.com.'],
+      ['Responsable del tratamiento', `El responsable de este sitio web es Oleg Fadeev. Contacto para solicitudes de privacidad: ${emailToken}.`],
       ['Datos recogidos mediante el formulario', 'Al enviar un mensaje, el sitio solicita tu nombre, dirección de correo electrónico y texto del mensaje. Estos datos son necesarios para responder a tu consulta.'],
       ['Finalidad y base jurídica', 'Los datos se tratan para responder a tu consulta y proteger el formulario frente a spam y abusos. La base jurídica es el interés legítimo en responder a consultas profesionales entrantes y, en su caso, la aplicación de medidas precontractuales.'],
       ['Proveedores de servicios', 'El formulario se procesa mediante Formspree, que recibe los datos enviados, guarda la solicitud en su panel y reenvía el mensaje por email. Cloudflare Turnstile se usa para verificar que el formulario no lo envía un bot. El proveedor de correo electrónico también puede procesar y almacenar el mensaje resultante.'],
       ['Transferencias internacionales', 'Algunos proveedores pueden tratar datos técnicos o del formulario fuera del Espacio Económico Europeo. Cuando sea necesario, esto se gestiona mediante los marcos de protección de datos, garantías contractuales o mecanismos de transferencia aplicables de dichos proveedores.'],
       ['Plazo de conservación', 'Los mensajes de contacto se conservan solo durante el tiempo necesario para responder y gestionar la consulta profesional, normalmente hasta 12 meses después del último contacto, salvo que exista una obligación legal, contractual o un motivo legítimo para conservarlos durante más tiempo.'],
-      ['Tus derechos', 'Puedes solicitar acceso, rectificación, supresión, limitación u oposición al tratamiento escribiendo a oleg.fadeev@gmail.com. También puedes presentar una reclamación ante tu autoridad de protección de datos.'],
+      ['Tus derechos', `Puedes solicitar acceso, rectificación, supresión, limitación u oposición al tratamiento escribiendo a ${emailToken}. También puedes presentar una reclamación ante tu autoridad de protección de datos.`],
       ['Cookies y seguimiento', 'Este sitio no utiliza cookies publicitarias ni analítica de marketing. Cloudflare Turnstile puede tratar datos técnicos del navegador con fines de seguridad y protección antispam.'],
     ],
     legalSections: [
       ['Titular del sitio web', 'Oleg Fadeev'],
-      ['Contacto', 'Email: oleg.fadeev@gmail.com'],
+      ['Contacto', `Email: ${emailToken}`],
       ['Actividad profesional', 'Consultoría SAP S/4HANA FICO / FSCM y servicios de transformación financiera.'],
       ['Dirección', 'Vogesenstrasse 33, 4056 Basel, Switzerland.'],
       ['VAT', 'Sin número de VAT/IVA.'],
@@ -71,23 +74,24 @@ const content = {
   },
   de: {
     title: 'Datenschutz und Impressum',
-    updated: 'Zuletzt aktualisiert: 22. Juli 2026',
+    updated: 'Zuletzt aktualisiert: 27. Juli 2026',
     intro: 'Diese Seite kombiniert die Datenschutzinformationen und das Impressum für die berufliche Landingpage fadeev.eu.',
     privacyTitle: 'Datenschutzinformationen',
     legalTitle: 'Impressum',
+    emailFallback: 'E-Mail-Adresse anzeigen',
     privacySections: [
-      ['Verantwortlicher', 'Verantwortlich für diese Website ist Oleg Fadeev. Kontakt für Datenschutzanfragen: oleg.fadeev@gmail.com.'],
+      ['Verantwortlicher', `Verantwortlich für diese Website ist Oleg Fadeev. Kontakt für Datenschutzanfragen: ${emailToken}.`],
       ['Über das Kontaktformular erhobene Daten', 'Beim Absenden einer Nachricht werden Ihr Name, Ihre E-Mail-Adresse und der Nachrichtentext abgefragt. Diese Angaben werden benötigt, um Ihre Anfrage zu beantworten.'],
       ['Zweck und Rechtsgrundlage', 'Die Daten werden verarbeitet, um Ihre Anfrage zu beantworten und das Kontaktformular vor Spam und Missbrauch zu schützen. Rechtsgrundlage ist das berechtigte Interesse an der Beantwortung beruflicher Anfragen sowie gegebenenfalls vorvertragliche Maßnahmen.'],
       ['Dienstleister', 'Das Kontaktformular wird über Formspree verarbeitet. Formspree erhält die übermittelten Formulardaten, speichert die Anfrage im Dashboard und leitet die Nachricht per E-Mail weiter. Cloudflare Turnstile wird verwendet, um zu prüfen, dass das Formular nicht automatisiert durch einen Bot abgesendet wird. Auch der E-Mail-Anbieter kann die resultierende Nachricht verarbeiten und speichern.'],
       ['Internationale Übermittlungen', 'Einige Dienstleister können technische Daten oder Formulardaten außerhalb des Europäischen Wirtschaftsraums verarbeiten. Soweit erforderlich, erfolgt dies über die Datenschutzrahmen, vertraglichen Garantien oder sonstigen zulässigen Übermittlungsmechanismen der Anbieter.'],
       ['Speicherdauer', 'Kontaktanfragen werden nur so lange aufbewahrt, wie es zur Beantwortung und Bearbeitung der beruflichen Anfrage erforderlich ist, in der Regel bis zu 12 Monate nach dem letzten Kontakt, sofern keine längere Aufbewahrung aus rechtlichen, vertraglichen oder berechtigten geschäftlichen Gründen erforderlich ist.'],
-      ['Ihre Rechte', 'Sie können Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung oder Widerspruch gegen die Verarbeitung verlangen, indem Sie an oleg.fadeev@gmail.com schreiben. Außerdem können Sie sich bei Ihrer zuständigen Datenschutzaufsichtsbehörde beschweren.'],
+      ['Ihre Rechte', `Sie können Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung oder Widerspruch gegen die Verarbeitung verlangen, indem Sie an ${emailToken} schreiben. Außerdem können Sie sich bei Ihrer zuständigen Datenschutzaufsichtsbehörde beschweren.`],
       ['Cookies und Tracking', 'Diese Website verwendet keine Werbe-Cookies und keine Marketing-Analyse. Cloudflare Turnstile kann technische Browserdaten zu Sicherheits- und Anti-Spam-Zwecken verarbeiten.'],
     ],
     legalSections: [
       ['Websiteinhaber', 'Oleg Fadeev'],
-      ['Kontakt', 'E-Mail: oleg.fadeev@gmail.com'],
+      ['Kontakt', `E-Mail: ${emailToken}`],
       ['Berufliche Tätigkeit', 'SAP S/4HANA FICO / FSCM Beratung und Finance-Transformation.'],
       ['Anschrift', 'Vogesenstrasse 33, 4056 Basel, Switzerland.'],
       ['MwSt./VAT', 'Keine VAT-Nummer.'],
@@ -136,16 +140,43 @@ const allSections = [
         {allSections.map((group) => (
           <section class="document-group">
             <h2 class="group-title">{group.title}</h2>
-            {group.sections.map(([heading, text]) => (
-              <section class="document-section">
-                <h3>{heading}</h3>
-                <p>{text}</p>
-              </section>
-            ))}
+            {group.sections.map(([heading, text]) => {
+              const parts = text.split(emailToken);
+              return (
+                <section class="document-section">
+                  <h3>{heading}</h3>
+                  <p>
+                    {parts.map((part, index) => (
+                      <Fragment>
+                        {part}
+                        {index < parts.length - 1 && (
+                          <a
+                            class="protected-email"
+                            href="#email"
+                            data-user="ycavirp"
+                            data-domain="ue.veedaf"
+                          >
+                            {content.emailFallback}
+                          </a>
+                        )}
+                      </Fragment>
+                    ))}
+                  </p>
+                </section>
+              );
+            })}
           </section>
         ))}
       </article>
     </main>
+    <script is:inline>
+      document.querySelectorAll('.protected-email').forEach((link) => {
+        const reverse = (value) => value.split('').reverse().join('');
+        const email = `${reverse(link.dataset.user || '')}@${reverse(link.dataset.domain || '')}`;
+        link.textContent = email;
+        link.href = `mailto:${email}`;
+      });
+    </script>
   </body>
 </html>
 
@@ -159,6 +190,7 @@ const allSections = [
   .legal-top { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:34px; }
   a { color:var(--blue); font-weight:800; text-decoration:none; }
   a:hover { text-decoration:underline; text-underline-offset:3px; }
+  .protected-email { overflow-wrap:anywhere; }
   .legal-languages { display:flex; gap:8px; }
   .legal-languages a { display:grid; place-items:center; min-width:38px; min-height:34px; border:1px solid #d5e3f1; border-radius:10px; color:#315f90; font-size:.82rem; }
   .legal-languages a[aria-current="page"] { color:#fff; border-color:var(--blue); background:var(--blue); }

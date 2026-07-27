@@ -30,16 +30,19 @@ const privacyCopy = {
     label: 'I have read the Privacy & Legal Notice and understand that my name, email address and message will be processed to reply to my enquiry.',
     link: 'Privacy & Legal Notice',
     success: 'Thank you — your message has been sent.',
+    checkboxError: 'Please confirm that you have read the Privacy & Legal Notice.',
   },
   es: {
     label: 'He leído la página de Privacidad y aviso legal y entiendo que mi nombre, correo electrónico y mensaje se tratarán para responder a mi consulta.',
     link: 'Privacidad y aviso legal',
     success: 'Gracias — tu mensaje se ha enviado correctamente.',
+    checkboxError: 'Confirma que has leído la página de Privacidad y aviso legal.',
   },
   de: {
     label: 'Ich habe Datenschutz und Impressum gelesen und verstehe, dass mein Name, meine E-Mail-Adresse und meine Nachricht zur Beantwortung meiner Anfrage verarbeitet werden.',
     link: 'Datenschutz und Impressum',
     success: 'Vielen Dank — Ihre Nachricht wurde gesendet.',
+    checkboxError: 'Bitte bestätigen Sie, dass Sie Datenschutz und Impressum gelesen haben.',
   },
 }[lang];
 ---
@@ -53,6 +56,7 @@ const privacyCopy = {
   data-sending={copy.sending}
   data-success={privacyCopy.success || copy.success}
   data-error={copy.error}
+  data-storage-key={`fadeev-contact-${lang}`}
 >
   <div data-form-fields>
     <div class="field-row">
@@ -72,7 +76,13 @@ const privacyCopy = {
     </label>
 
     <label class="privacy-check">
-      <input type="checkbox" name="privacy_policy_confirmed" value="yes" required />
+      <input
+        type="checkbox"
+        name="privacy_policy_confirmed"
+        value="yes"
+        required
+        data-checkbox-error={privacyCopy.checkboxError}
+      />
       <span>{privacyCopy.label} <a href={privacyHref}>{privacyCopy.link}</a>.</span>
     </label>
 
@@ -112,58 +122,103 @@ const privacyCopy = {
 <script is:inline>
   const form = document.querySelector('[data-contact-form]');
 
-  if (form && form.dataset.configured === 'true') {
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
+  if (form) {
+    const storageKey = form.dataset.storageKey || 'fadeev-contact';
+    const nameInput = form.querySelector('input[name="name"]');
+    const emailInput = form.querySelector('input[name="email"]');
+    const messageInput = form.querySelector('textarea[name="message"]');
+    const privacyInput = form.querySelector('input[name="privacy_policy_confirmed"]');
 
-      const fields = form.querySelector('[data-form-fields]');
-      const sendingState = form.querySelector('[data-form-sending]');
-      const successState = form.querySelector('[data-form-success]');
-      const button = form.querySelector('button[type="submit"]');
-      const label = form.querySelector('[data-submit-label]');
-      const status = form.querySelector('[data-form-status]');
-      const defaultLabel = label?.textContent || '';
-      const sending = form.dataset.sending || 'Sending…';
-
-      button.disabled = true;
-      if (label) label.textContent = sending;
-      if (status) status.textContent = '';
-      if (fields) fields.hidden = true;
-      if (successState) successState.hidden = true;
-      if (sendingState) sendingState.hidden = false;
-
+    const saveDraft = () => {
       try {
-        const widgetId = window.turnstileWidgetId;
-        const token = widgetId !== null && window.turnstile ? window.turnstile.getResponse(widgetId) : '';
-        if (!token) throw new Error('Turnstile verification is required');
+        sessionStorage.setItem(storageKey, JSON.stringify({
+          name: nameInput?.value || '',
+          email: emailInput?.value || '',
+          message: messageInput?.value || '',
+          privacy: Boolean(privacyInput?.checked),
+        }));
+      } catch {}
+    };
 
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' },
-        });
+    const restoreDraft = () => {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(storageKey) || 'null');
+        if (!saved) return;
+        if (nameInput) nameInput.value = saved.name || '';
+        if (emailInput) emailInput.value = saved.email || '';
+        if (messageInput) messageInput.value = saved.message || '';
+        if (privacyInput) privacyInput.checked = Boolean(saved.privacy);
+      } catch {}
+    };
 
-        if (!response.ok) throw new Error('Form submission failed');
+    restoreDraft();
+    form.addEventListener('input', saveDraft);
+    form.addEventListener('change', saveDraft);
+    window.addEventListener('pageshow', restoreDraft);
 
-        form.reset();
-        if (window.turnstile && window.turnstileWidgetId !== null) {
-          window.turnstile.reset(window.turnstileWidgetId);
+    if (privacyInput) {
+      privacyInput.addEventListener('invalid', () => {
+        privacyInput.setCustomValidity(
+          privacyInput.checked ? '' : (privacyInput.dataset.checkboxError || '')
+        );
+      });
+      privacyInput.addEventListener('change', () => privacyInput.setCustomValidity(''));
+    }
+
+    if (form.dataset.configured === 'true') {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+
+        const fields = form.querySelector('[data-form-fields]');
+        const sendingState = form.querySelector('[data-form-sending]');
+        const successState = form.querySelector('[data-form-success]');
+        const button = form.querySelector('button[type="submit"]');
+        const label = form.querySelector('[data-submit-label]');
+        const status = form.querySelector('[data-form-status]');
+        const defaultLabel = label?.textContent || '';
+        const sending = form.dataset.sending || 'Sending…';
+
+        button.disabled = true;
+        if (label) label.textContent = sending;
+        if (status) status.textContent = '';
+        if (fields) fields.hidden = true;
+        if (successState) successState.hidden = true;
+        if (sendingState) sendingState.hidden = false;
+
+        try {
+          const widgetId = window.turnstileWidgetId;
+          const token = widgetId !== null && window.turnstile ? window.turnstile.getResponse(widgetId) : '';
+          if (!token) throw new Error('Turnstile verification is required');
+
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' },
+          });
+
+          if (!response.ok) throw new Error('Form submission failed');
+
+          form.reset();
+          sessionStorage.removeItem(storageKey);
+          if (window.turnstile && window.turnstileWidgetId !== null) {
+            window.turnstile.reset(window.turnstileWidgetId);
+          }
+          if (sendingState) sendingState.hidden = true;
+          if (successState) successState.hidden = false;
+        } catch (error) {
+          if (sendingState) sendingState.hidden = true;
+          if (fields) fields.hidden = false;
+          if (status) {
+            status.classList.remove('is-success');
+            status.classList.add('is-error');
+            status.textContent = form.dataset.error || 'The message could not be sent. Please try again later.';
+          }
+        } finally {
+          button.disabled = false;
+          if (label) label.textContent = defaultLabel;
         }
-        if (sendingState) sendingState.hidden = true;
-        if (successState) successState.hidden = false;
-      } catch (error) {
-        if (sendingState) sendingState.hidden = true;
-        if (fields) fields.hidden = false;
-        if (status) {
-          status.classList.remove('is-success');
-          status.classList.add('is-error');
-          status.textContent = form.dataset.error || 'The message could not be sent. Please try again later.';
-        }
-      } finally {
-        button.disabled = false;
-        if (label) label.textContent = defaultLabel;
-      }
-    });
+      });
+    }
   }
 </script>
