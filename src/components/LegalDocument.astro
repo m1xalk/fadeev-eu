@@ -11,105 +11,558 @@ const data = profile.data;
 
 const pathFor = (language: Language) => language === 'en' ? '/privacy/' : `/${language}/privacy/`;
 const backHref = lang === 'en' ? '/' : `/${lang}/`;
-const emailToken = '[[privacy-email]]';
-
-const content = {
-  en: {
-    title: 'Privacy & Legal Notice',
-    updated: 'Last updated: 27 July 2026',
-    intro: 'This page combines the privacy information and legal notice for the professional landing page fadeev.eu.',
-    privacyTitle: 'Privacy information',
-    legalTitle: 'Legal notice',
-    emailFallback: 'Show email address',
-    privacySections: [
-      ['Controller', `The controller responsible for this website is Oleg Fadeev. Contact for privacy requests: ${emailToken}.`],
-      ['Data collected through the contact form', 'When you send a message, the website asks for your name, email address and message text. These details are needed to reply to your enquiry.'],
-      ['Purpose and legal basis', 'The data is processed to respond to your enquiry and to protect the contact form from spam and abuse. The legal basis is legitimate interest in responding to incoming professional enquiries and, where applicable, steps prior to entering into a contract.'],
-      ['Service providers', 'The contact form is processed by Formspree, which receives the submitted form data, stores the submission in its dashboard and forwards the message by email. Cloudflare Turnstile is used to verify that the form is not being submitted by an automated bot. Your email provider may also process and store the resulting email message.'],
-      ['International transfers', 'Some service providers may process technical or form data outside the European Economic Area. Where required, this is handled through the providers’ own data protection frameworks, contractual safeguards or applicable transfer mechanisms.'],
-      ['Storage period', 'Contact messages are kept only for as long as needed to reply and manage the professional enquiry, normally up to 12 months after the last contact, unless a longer retention period is required for legal, contractual or legitimate business reasons.'],
-      ['Your rights', `You may request access, rectification, deletion, restriction of processing or object to processing by contacting ${emailToken}. You may also lodge a complaint with your local data protection authority.`],
-      ['Cookies and tracking', 'This website does not use advertising cookies or marketing analytics. Cloudflare Turnstile may process technical browser data for security and anti-spam purposes.'],
-    ],
-    legalSections: [
-      ['Website owner', 'Oleg Fadeev'],
-      ['Contact', `Email: ${emailToken}`],
-      ['Professional activity', 'SAP S/4HANA FICO / FSCM consulting and finance transformation services.'],
-      ['Address', 'Vogesenstrasse 33, 4056 Basel, Switzerland.'],
-      ['VAT', 'No VAT number.'],
-      ['Liability for content', 'The information on this website is provided for general professional information. Although reasonable care is taken, no guarantee is given that all information is complete, accurate or up to date.'],
-      ['External links', 'This website may link to external services such as LinkedIn. The owner is not responsible for the content or privacy practices of external websites.'],
-    ],
-    back: 'Back to website',
-    language: 'Language',
-  },
-  es: {
-    title: 'Privacidad y aviso legal',
-    updated: 'Última actualización: 27 de julio de 2026',
-    intro: 'Esta página combina la información de privacidad y el aviso legal de la landing page profesional fadeev.eu.',
-    privacyTitle: 'Información de privacidad',
-    legalTitle: 'Aviso legal',
-    emailFallback: 'Mostrar dirección de correo',
-    privacySections: [
-      ['Responsable del tratamiento', `El responsable de este sitio web es Oleg Fadeev. Contacto para solicitudes de privacidad: ${emailToken}.`],
-      ['Datos recogidos mediante el formulario', 'Al enviar un mensaje, el sitio solicita tu nombre, dirección de correo electrónico y texto del mensaje. Estos datos son necesarios para responder a tu consulta.'],
-      ['Finalidad y base jurídica', 'Los datos se tratan para responder a tu consulta y proteger el formulario frente a spam y abusos. La base jurídica es el interés legítimo en responder a consultas profesionales entrantes y, en su caso, la aplicación de medidas precontractuales.'],
-      ['Proveedores de servicios', 'El formulario se procesa mediante Formspree, que recibe los datos enviados, guarda la solicitud en su panel y reenvía el mensaje por email. Cloudflare Turnstile se usa para verificar que el formulario no lo envía un bot. El proveedor de correo electrónico también puede procesar y almacenar el mensaje resultante.'],
-      ['Transferencias internacionales', 'Algunos proveedores pueden tratar datos técnicos o del formulario fuera del Espacio Económico Europeo. Cuando sea necesario, esto se gestiona mediante los marcos de protección de datos, garantías contractuales o mecanismos de transferencia aplicables de dichos proveedores.'],
-      ['Plazo de conservación', 'Los mensajes de contacto se conservan solo durante el tiempo necesario para responder y gestionar la consulta profesional, normalmente hasta 12 meses después del último contacto, salvo que exista una obligación legal, contractual o un motivo legítimo para conservarlos durante más tiempo.'],
-      ['Tus derechos', `Puedes solicitar acceso, rectificación, supresión, limitación u oposición al tratamiento escribiendo a ${emailToken}. También puedes presentar una reclamación ante tu autoridad de protección de datos.`],
-      ['Cookies y seguimiento', 'Este sitio no utiliza cookies publicitarias ni analítica de marketing. Cloudflare Turnstile puede tratar datos técnicos del navegador con fines de seguridad y protección antispam.'],
-    ],
-    legalSections: [
-      ['Titular del sitio web', 'Oleg Fadeev'],
-      ['Contacto', `Email: ${emailToken}`],
-      ['Actividad profesional', 'Consultoría SAP S/4HANA FICO / FSCM y servicios de transformación financiera.'],
-      ['Dirección', 'Vogesenstrasse 33, 4056 Basel, Switzerland.'],
-      ['VAT', 'Sin número de VAT/IVA.'],
-      ['Responsabilidad por contenidos', 'La información del sitio se ofrece con fines profesionales generales. Aunque se procura mantenerla correctamente, no se garantiza que toda la información sea completa, exacta o actualizada.'],
-      ['Enlaces externos', 'Este sitio puede enlazar a servicios externos como LinkedIn. El titular no se responsabiliza del contenido ni de las prácticas de privacidad de sitios externos.'],
-    ],
-    back: 'Volver al sitio',
-    language: 'Idioma',
-  },
-  de: {
-    title: 'Datenschutz und Impressum',
-    updated: 'Zuletzt aktualisiert: 27. Juli 2026',
-    intro: 'Diese Seite kombiniert die Datenschutzinformationen und das Impressum für die berufliche Landingpage fadeev.eu.',
-    privacyTitle: 'Datenschutzinformationen',
-    legalTitle: 'Impressum',
-    emailFallback: 'E-Mail-Adresse anzeigen',
-    privacySections: [
-      ['Verantwortlicher', `Verantwortlich für diese Website ist Oleg Fadeev. Kontakt für Datenschutzanfragen: ${emailToken}.`],
-      ['Über das Kontaktformular erhobene Daten', 'Beim Absenden einer Nachricht werden Ihr Name, Ihre E-Mail-Adresse und der Nachrichtentext abgefragt. Diese Angaben werden benötigt, um Ihre Anfrage zu beantworten.'],
-      ['Zweck und Rechtsgrundlage', 'Die Daten werden verarbeitet, um Ihre Anfrage zu beantworten und das Kontaktformular vor Spam und Missbrauch zu schützen. Rechtsgrundlage ist das berechtigte Interesse an der Beantwortung beruflicher Anfragen sowie gegebenenfalls vorvertragliche Maßnahmen.'],
-      ['Dienstleister', 'Das Kontaktformular wird über Formspree verarbeitet. Formspree erhält die übermittelten Formulardaten, speichert die Anfrage im Dashboard und leitet die Nachricht per E-Mail weiter. Cloudflare Turnstile wird verwendet, um zu prüfen, dass das Formular nicht automatisiert durch einen Bot abgesendet wird. Auch der E-Mail-Anbieter kann die resultierende Nachricht verarbeiten und speichern.'],
-      ['Internationale Übermittlungen', 'Einige Dienstleister können technische Daten oder Formulardaten außerhalb des Europäischen Wirtschaftsraums verarbeiten. Soweit erforderlich, erfolgt dies über die Datenschutzrahmen, vertraglichen Garantien oder sonstigen zulässigen Übermittlungsmechanismen der Anbieter.'],
-      ['Speicherdauer', 'Kontaktanfragen werden nur so lange aufbewahrt, wie es zur Beantwortung und Bearbeitung der beruflichen Anfrage erforderlich ist, in der Regel bis zu 12 Monate nach dem letzten Kontakt, sofern keine längere Aufbewahrung aus rechtlichen, vertraglichen oder berechtigten geschäftlichen Gründen erforderlich ist.'],
-      ['Ihre Rechte', `Sie können Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung oder Widerspruch gegen die Verarbeitung verlangen, indem Sie an ${emailToken} schreiben. Außerdem können Sie sich bei Ihrer zuständigen Datenschutzaufsichtsbehörde beschweren.`],
-      ['Cookies und Tracking', 'Diese Website verwendet keine Werbe-Cookies und keine Marketing-Analyse. Cloudflare Turnstile kann technische Browserdaten zu Sicherheits- und Anti-Spam-Zwecken verarbeiten.'],
-    ],
-    legalSections: [
-      ['Websiteinhaber', 'Oleg Fadeev'],
-      ['Kontakt', `E-Mail: ${emailToken}`],
-      ['Berufliche Tätigkeit', 'SAP S/4HANA FICO / FSCM Beratung und Finance-Transformation.'],
-      ['Anschrift', 'Vogesenstrasse 33, 4056 Basel, Switzerland.'],
-      ['MwSt./VAT', 'Keine VAT-Nummer.'],
-      ['Haftung für Inhalte', 'Die Inhalte dieser Website dienen der allgemeinen beruflichen Information. Trotz sorgfältiger Erstellung wird keine Gewähr für Vollständigkeit, Richtigkeit oder Aktualität übernommen.'],
-      ['Externe Links', 'Diese Website kann auf externe Dienste wie LinkedIn verlinken. Der Inhaber ist nicht für Inhalte oder Datenschutzpraktiken externer Websites verantwortlich.'],
-    ],
-    back: 'Zurück zur Website',
-    language: 'Sprache',
-  },
-}[lang];
-
-const pageTitle = `${content.title} | Oleg Fadeev`;
-const canonical = new URL(pathFor(lang), data.siteUrl).toString();
 const languageNames = { en: 'EN', es: 'ES', de: 'DE' } as const;
-const allSections = [
-  { title: content.privacyTitle, sections: content.privacySections },
-  { title: content.legalTitle, sections: content.legalSections },
-];
+const labels = {"en": {"back": "Back to website", "language": "Language"}, "es": {"back": "Volver al sitio", "language": "Idioma"}, "de": {"back": "Zurück zur Website", "language": "Sprache"}};
+const documents = {
+  en: `<h1 id="privacy-amp-legal-notice">Privacy &amp; Legal Notice</h1>
+<p><strong>Version 2.0. Effective date: 27 July 2026.</strong></p>
+<p>This page contains the legal notice, the terms of use and the privacy information for the website fadeev.eu (the &quot;Website&quot;). It applies to every visitor of the Website.</p>
+<h2 id="contents">Contents</h2>
+<ol>
+<li><a href="#1-legal-notice">Legal notice</a></li>
+<li><a href="#2-terms-of-use">Terms of use</a></li>
+<li><a href="#3-privacy-information">Privacy information</a></li>
+<li><a href="#4-changes-to-this-notice">Changes to this notice</a></li>
+<li><a href="#5-language-versions">Language versions</a></li>
+<li><a href="#6-applicable-law-and-place-of-jurisdiction">Applicable law and place of jurisdiction</a></li>
+</ol>
+<hr />
+<h2 id="1-legal-notice">1. Legal notice</h2>
+<p><strong>Website owner and person responsible for the content</strong></p>
+<p>Oleg Fadeev
+Vogesenstrasse 33
+4056 Basel
+Switzerland</p>
+<p><strong>Contact:</strong> <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a></p>
+<p><strong>Professional activity:</strong> independent consulting services in SAP S/4HANA Finance (FI/CO), FSCM, Treasury and finance transformation.</p>
+<p><strong>VAT:</strong> not subject to Swiss VAT, therefore no VAT number.</p>
+<p><strong>Commercial register:</strong> not entered in the commercial register.</p>
+<p><strong>Professional title:</strong> the activity described on this Website is not a regulated profession under Swiss law.</p>
+<hr />
+<h2 id="2-terms-of-use">2. Terms of use</h2>
+<h3 id="21-purpose-of-the-website">2.1 Purpose of the Website</h3>
+<p>The Website is a personal professional profile. It presents professional experience and provides a contact channel for professional enquiries.</p>
+<h3 id="22-no-advice-and-no-professional-relationship">2.2 No advice and no professional relationship</h3>
+<p>The content of the Website is general information about professional experience and areas of work. It does not constitute consulting, technical, tax, accounting or legal advice, and it must not be relied upon for any decision. Sending a message through the contact form or by email does not create a client relationship, a contract or any obligation to provide services.</p>
+<h3 id="23-do-not-send-confidential-information">2.3 Do not send confidential information</h3>
+<p>Please do not send confidential, personal or client information, system data, credentials, screenshots of productive systems or any material subject to a non-disclosure agreement through the contact form or by unencrypted email. Only send a short description of your enquiry. Any confidential information can be exchanged later through an appropriate and agreed channel.</p>
+<h3 id="24-intellectual-property">2.4 Intellectual property</h3>
+<p>The texts, layout, structure and images of this Website are protected by copyright and belong to the Website owner, unless indicated otherwise. Reproduction, distribution or publication of any part of the Website beyond normal browsing requires prior written permission. Short quotations with a clear attribution and a link to the source are permitted.</p>
+<h3 id="25-trademarks-and-absence-of-affiliation">2.5 Trademarks and absence of affiliation</h3>
+<p>SAP, S/4HANA, SAP ERP and other SAP product names are trademarks or registered trademarks of SAP SE in Germany and in other countries. Other product, company and brand names mentioned on this Website are the property of their respective owners.</p>
+<p>The use of these names on this Website is purely descriptive, in order to indicate the technologies the Website owner has worked with. It does not imply any affiliation with, sponsorship by, endorsement by or certification from SAP SE or any other company mentioned, unless expressly stated. The Website owner is not a representative of SAP SE.</p>
+<p>No client name is published on this Website without the corresponding authorisation.</p>
+<h3 id="26-accuracy-of-the-content">2.6 Accuracy of the content</h3>
+<p>The content is prepared with reasonable care, but no guarantee is given that it is complete, accurate or up to date. The Website owner may modify or remove content at any time and without prior notice.</p>
+<h3 id="27-availability">2.7 Availability</h3>
+<p>No guarantee is given that the Website will be available without interruption or free of errors. Access may be suspended for maintenance or for technical reasons.</p>
+<h3 id="28-external-links">2.8 External links</h3>
+<p>The Website contains links to external websites, such as LinkedIn. These links are provided for convenience only. The Website owner has no control over the content, the terms or the data protection practices of those websites and accepts no responsibility for them. Accessing them is at your own risk.</p>
+<h3 id="29-limitation-of-liability">2.9 Limitation of liability</h3>
+<p>To the extent permitted by the applicable law, the Website owner accepts no liability for any direct or indirect damage arising from the access to, the use of, or the inability to use the Website or its content, including damage caused by malware or by the interruption of the service. This limitation does not apply to damage caused intentionally or by gross negligence, nor to any liability that cannot be excluded by law.</p>
+<hr />
+<h2 id="3-privacy-information">3. Privacy information</h2>
+<h3 id="31-controller">3.1 Controller</h3>
+<p>The controller for the processing of personal data through this Website is:</p>
+<p>Oleg Fadeev, Vogesenstrasse 33, 4056 Basel, Switzerland
+Email for privacy matters: <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a></p>
+<p>No data protection officer has been appointed, since the applicable legal requirements for such an appointment are not met.</p>
+<h3 id="32-applicable-law">3.2 Applicable law</h3>
+<p>The processing described below is subject to the Swiss Federal Act on Data Protection (FADP) and, where the conditions of its Article 3 are met, to Regulation (EU) 2016/679 (GDPR).</p>
+<h3 id="33-data-processed">3.3 Data processed</h3>
+<p><strong>a) Server logs and content delivery network.</strong> The Website is hosted and delivered through the Cloudflare network. When you visit the Website, Cloudflare automatically processes technical data, in particular the IP address, the date and time of the request, the requested resource, the referring page, the browser type and version, the operating system and the amount of data transferred. This data is necessary to deliver the pages, to keep the service stable and to protect it against attacks.</p>
+<p><strong>b) Contact form.</strong> When you send a message, the following is processed: your name, your email address, the text of your message, the confirmation of the privacy checkbox, and the technical data associated with the submission (IP address, timestamp, anti-spam result).</p>
+<p><strong>c) Email correspondence.</strong> If you write directly by email, or once a reply is sent to a message from the contact form, the content of the correspondence and the associated metadata are processed and stored in the email mailbox.</p>
+<p><strong>d) Anti-spam verification.</strong> Cloudflare Turnstile processes technical data of the browser and of the session in order to verify that the form is not being submitted by an automated bot.</p>
+<p>The Website does not use advertising cookies, marketing analytics, tracking pixels, remarketing or user profiling.</p>
+<h3 id="34-purposes-and-legal-bases">3.4 Purposes and legal bases</h3>
+<table>
+<thead>
+<tr>
+  <th>Processing</th>
+  <th>Purpose</th>
+  <th>Legal basis (GDPR)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Server logs and CDN</td>
+  <td>Delivery of the Website, stability, IT security</td>
+  <td>Art. 6(1)(f): legitimate interest in operating a secure and functioning website</td>
+</tr>
+<tr>
+  <td>Contact form and reply</td>
+  <td>Reply to your enquiry and, where applicable, prepare a possible collaboration</td>
+  <td>Art. 6(1)(b): steps prior to entering into a contract, and Art. 6(1)(f): legitimate interest in responding to professional enquiries</td>
+</tr>
+<tr>
+  <td>Privacy checkbox on the form</td>
+  <td>Evidence that the information was provided before submission</td>
+  <td>Art. 6(1)(a): consent, and Art. 7(1)</td>
+</tr>
+<tr>
+  <td>Anti-spam verification</td>
+  <td>Protection of the form against abuse and automated submissions</td>
+  <td>Art. 6(1)(f): legitimate interest in preventing abuse</td>
+</tr>
+<tr>
+  <td>Retention of correspondence</td>
+  <td>Documentation of professional contacts and compliance with legal retention duties</td>
+  <td>Art. 6(1)(f) and Art. 6(1)(c)</td>
+</tr>
+</tbody>
+</table>
+<p>Under the FADP, the processing described above is ordinary processing carried out in good faith, for a purpose that is recognisable and proportionate to the enquiry you send.</p>
+<p>You may withdraw your consent at any time with effect for the future, without affecting the lawfulness of the processing carried out before the withdrawal.</p>
+<h3 id="35-the-provision-of-data-is-voluntary">3.5 The provision of data is voluntary</h3>
+<p>You are not legally or contractually obliged to provide any data. The name, the email address and the message are, however, necessary in order to be able to reply. If you do not provide them, the enquiry cannot be processed.</p>
+<h3 id="36-service-providers">3.6 Service providers</h3>
+<p>The following providers process data on behalf of the controller or in connection with the operation of the Website:</p>
+<table>
+<thead>
+<tr>
+  <th>Provider</th>
+  <th>Function</th>
+  <th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Cloudflare, Inc.</td>
+  <td>Hosting of the Website, content delivery network, server logs, protection against attacks, Turnstile anti-spam verification and forwarding, through Email Routing, of mail addressed to the domain to the destination mailbox</td>
+  <td>United States, with a global network of servers that deliver content from the node closest to the visitor</td>
+</tr>
+<tr>
+  <td>Formspree, Inc.</td>
+  <td>Reception of the contact form and forwarding of the message by email. The service is configured not to retain submissions in the Formspree dashboard. Formspree hosts its service with Amazon Web Services in the United States</td>
+  <td>United States</td>
+</tr>
+<tr>
+  <td>Google</td>
+  <td>Destination mailbox in which the correspondence is received and stored</td>
+  <td>United States and Ireland, depending on the applicable contracting entity</td>
+</tr>
+</tbody>
+</table>
+<p>The domain is registered through Soluciones Corporativas IP, S.L. (DonDominio), Manacor, Spain. The registrar processes the registrant's data for the administration of the domain and does not process the personal data of visitors to the Website.</p>
+<p>Data processing agreements made available by Cloudflare and by Formspree are in force. The destination mailbox is operated through a Google mail service, subject to the terms of that service.</p>
+<h3 id="37-international-transfers">3.7 International transfers</h3>
+<p>Some of the providers listed above are established in the United States or may process data outside Switzerland and outside the European Economic Area.</p>
+<p>These transfers take place on the basis of the mechanisms provided for in Articles 44 to 49 of the GDPR and in Articles 16 and 17 of the FADP, applied to each provider as follows:</p>
+<ul>
+<li><strong>Cloudflare, Inc.:</strong> certified under the EU-U.S. Data Privacy Framework and under the Swiss-U.S. Data Privacy Framework, complemented by the standard contractual clauses of the European Commission.</li>
+<li><strong>Formspree, Inc.:</strong> standard contractual clauses of the European Commission, recognised by the Federal Data Protection and Information Commissioner with the adaptations required for Switzerland.</li>
+<li><strong>Google:</strong> certification under the EU-U.S. and Swiss-U.S. Data Privacy Framework, complemented by the standard contractual clauses.</li>
+</ul>
+<p>Despite these safeguards, a level of protection equivalent to the Swiss and European one cannot be fully guaranteed in every destination country, in particular as regards access by public authorities.</p>
+<h3 id="38-retention">3.8 Retention</h3>
+<ul>
+<li><strong>Server logs and CDN:</strong> for the periods applied by the providers for security and diagnostic purposes, generally short.</li>
+<li><strong>Contact form submissions:</strong> Formspree is configured not to store submissions. The message is transmitted and forwarded by email without being retained in the provider's dashboard.</li>
+<li><strong>Email correspondence:</strong> kept for as long as necessary to manage the professional relationship or the enquiry, normally up to 24 months after the last contact. Where a contractual relationship arises, the correspondence relating to it is kept for the statutory retention periods, which under Swiss law is 10 years for business records.</li>
+</ul>
+<h3 id="39-security">3.9 Security</h3>
+<p>The Website is served exclusively over an encrypted TLS connection. The submissions of the contact form are transmitted over an encrypted channel. Access to the mailbox and to the providers' accounts is protected by strong passwords and two-factor authentication. Ordinary email is not an end-to-end encrypted channel, which is why point 2.3 above asks you not to send confidential information through it.</p>
+<h3 id="310-your-rights">3.10 Your rights</h3>
+<p>Under the GDPR, where it applies, you have the right of access (Art. 15), rectification (Art. 16), erasure (Art. 17), restriction of processing (Art. 18), data portability (Art. 20), objection to processing based on legitimate interest (Art. 21) and withdrawal of consent (Art. 7(3)).</p>
+<p>Under the FADP, you have the right of access (Art. 25), the right to obtain the correction, deletion or destruction of the data (Art. 32), the right to data portability (Art. 28) and the right to object to the processing.</p>
+<p>To exercise these rights, write to <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a>. A reply will be provided within one month. Where verification of your identity is necessary in order to protect your own data, additional information may be requested.</p>
+<p>The exercise of these rights is free of charge.</p>
+<h3 id="311-supervisory-authorities">3.11 Supervisory authorities</h3>
+<p>If you consider that the processing infringes data protection law, you may lodge a complaint with:</p>
+<ul>
+<li><strong>Switzerland:</strong> Federal Data Protection and Information Commissioner (FDPIC), Feldeggweg 1, 3003 Bern, www.edoeb.admin.ch</li>
+<li><strong>European Economic Area:</strong> the supervisory authority of your country of residence, of your place of work or of the place of the alleged infringement.</li>
+</ul>
+<h3 id="312-cookies-and-similar-technologies">3.12 Cookies and similar technologies</h3>
+<p>The Website does not set advertising, analytics or profiling cookies.</p>
+<p>Only technically necessary elements are used: the storage of the acknowledgement of the privacy banner in your browser, and the cookies or tokens that Cloudflare Turnstile and the security services of Cloudflare need in order to verify the session and to protect the Website. These elements do not require your consent because they are strictly necessary for the requested service.</p>
+<h3 id="313-no-automated-decision-making">3.13 No automated decision-making</h3>
+<p>No automated individual decision-making, including profiling, within the meaning of Article 22 of the GDPR and Article 21 of the FADP takes place.</p>
+<h3 id="314-minors">3.14 Minors</h3>
+<p>The Website is directed at professional audiences and is not intended for persons under 16 years of age. No data is knowingly collected from minors.</p>
+<hr />
+<h2 id="4-changes-to-this-notice">4. Changes to this notice</h2>
+<p>This notice may be updated to reflect changes in the services used, in the functionality of the Website or in the applicable law. The version and the effective date at the top of the page always indicate the current text. Continued use of the Website after publication of a new version constitutes acknowledgement of that version.</p>
+<p>Previous versions are available on request at <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a>.</p>
+<hr />
+<h2 id="5-language-versions">5. Language versions</h2>
+<p>This page is published in English, Spanish and German. The versions are intended to be equivalent in content. <strong>In the event of any discrepancy or difference in interpretation between them, the English version prevails.</strong></p>
+<hr />
+<h2 id="6-applicable-law-and-place-of-jurisdiction">6. Applicable law and place of jurisdiction</h2>
+<p>This notice and the use of the Website are governed by Swiss law, without prejudice to the mandatory provisions of the law of the country of residence of consumers domiciled in the European Economic Area.</p>
+<p>The place of jurisdiction is Basel-Stadt, Switzerland, insofar as no mandatory statutory place of jurisdiction applies.</p>
+`,
+  es: `<h1 id="aviso-legal-y-de-privacidad">Aviso legal y de privacidad</h1>
+<p><strong>Versión 2.0. Fecha de entrada en vigor: 27 de julio de 2026.</strong></p>
+<p>Esta página contiene el aviso legal, las condiciones de uso y la información sobre privacidad del sitio web fadeev.eu (el &quot;Sitio&quot;). Se aplica a toda persona que lo visite.</p>
+<h2 id="contenido">Contenido</h2>
+<ol>
+<li><a href="#1-aviso-legal">Aviso legal</a></li>
+<li><a href="#2-condiciones-de-uso">Condiciones de uso</a></li>
+<li><a href="#3-informaci%C3%B3n-sobre-privacidad">Información sobre privacidad</a></li>
+<li><a href="#4-modificaciones-de-este-aviso">Modificaciones de este aviso</a></li>
+<li><a href="#5-versiones-ling%C3%BC%C3%ADsticas">Versiones lingüísticas</a></li>
+<li><a href="#6-ley-aplicable-y-jurisdicci%C3%B3n">Ley aplicable y jurisdicción</a></li>
+</ol>
+<hr />
+<h2 id="1-aviso-legal">1. Aviso legal</h2>
+<p><strong>Titular del Sitio y responsable del contenido</strong></p>
+<p>Oleg Fadeev
+Vogesenstrasse 33
+4056 Basilea
+Suiza</p>
+<p><strong>Contacto:</strong> <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a></p>
+<p><strong>Actividad profesional:</strong> servicios independientes de consultoría en SAP S/4HANA Finanzas (FI/CO), FSCM, Tesorería y transformación financiera.</p>
+<p><strong>IVA:</strong> no sujeto al IVA suizo (MWST) y, por tanto, sin número de IVA.</p>
+<p><strong>Registro mercantil:</strong> no inscrito en el registro mercantil.</p>
+<p><strong>Título profesional:</strong> la actividad descrita en este Sitio no constituye una profesión regulada según el derecho suizo.</p>
+<hr />
+<h2 id="2-condiciones-de-uso">2. Condiciones de uso</h2>
+<h3 id="21-finalidad-del-sitio">2.1 Finalidad del Sitio</h3>
+<p>El Sitio es un perfil profesional personal. Presenta la experiencia profesional del titular y ofrece un canal de contacto para consultas profesionales.</p>
+<h3 id="22-ausencia-de-asesoramiento-y-de-relación-profesional">2.2 Ausencia de asesoramiento y de relación profesional</h3>
+<p>El contenido del Sitio es información general sobre experiencia profesional y ámbitos de trabajo. No constituye asesoramiento de consultoría, técnico, fiscal, contable ni jurídico, y no debe utilizarse como base para ninguna decisión. El envío de un mensaje a través del formulario de contacto o por correo electrónico no crea una relación de cliente, ni un contrato, ni obligación alguna de prestar servicios.</p>
+<h3 id="23-no-envíes-información-confidencial">2.3 No envíes información confidencial</h3>
+<p>Te pedimos que no envíes información confidencial, datos personales de terceros, datos de clientes, información de sistemas, credenciales, capturas de pantalla de sistemas productivos ni ningún material sujeto a un acuerdo de confidencialidad a través del formulario de contacto ni por correo electrónico sin cifrar. Envía únicamente una descripción breve de tu consulta. Cualquier información confidencial podrá intercambiarse más adelante por un canal adecuado y acordado.</p>
+<h3 id="24-propiedad-intelectual">2.4 Propiedad intelectual</h3>
+<p>Los textos, el diseño, la estructura y las imágenes de este Sitio están protegidos por derechos de autor y pertenecen al titular del Sitio, salvo indicación en contrario. La reproducción, distribución o publicación de cualquier parte del Sitio más allá de la navegación normal requiere autorización previa por escrito. Se permiten citas breves con atribución clara y enlace a la fuente.</p>
+<h3 id="25-marcas-y-ausencia-de-afiliación">2.5 Marcas y ausencia de afiliación</h3>
+<p>SAP, S/4HANA, SAP ERP y otros nombres de productos de SAP son marcas comerciales o marcas registradas de SAP SE en Alemania y en otros países. Los demás nombres de productos, empresas y marcas mencionados en este Sitio son propiedad de sus respectivos titulares.</p>
+<p>El uso de estos nombres en este Sitio es meramente descriptivo, con el fin de indicar las tecnologías con las que ha trabajado el titular del Sitio. No implica afiliación, patrocinio, respaldo ni certificación por parte de SAP SE ni de ninguna otra empresa mencionada, salvo que se indique expresamente. El titular del Sitio no es representante de SAP SE.</p>
+<p>En este Sitio no se publica ningún nombre de cliente sin la autorización correspondiente.</p>
+<h3 id="26-exactitud-del-contenido">2.6 Exactitud del contenido</h3>
+<p>El contenido se elabora con una diligencia razonable, pero no se garantiza que sea completo, exacto ni esté actualizado. El titular del Sitio puede modificar o retirar contenidos en cualquier momento y sin previo aviso.</p>
+<h3 id="27-disponibilidad">2.7 Disponibilidad</h3>
+<p>No se garantiza que el Sitio esté disponible de forma ininterrumpida ni libre de errores. El acceso puede suspenderse por mantenimiento o por razones técnicas.</p>
+<h3 id="28-enlaces-externos">2.8 Enlaces externos</h3>
+<p>El Sitio contiene enlaces a sitios externos, como LinkedIn. Estos enlaces se ofrecen únicamente por comodidad. El titular del Sitio no controla el contenido, las condiciones ni las prácticas de protección de datos de dichos sitios y no asume responsabilidad alguna sobre ellos. El acceso a los mismos se realiza bajo tu propia responsabilidad.</p>
+<h3 id="29-limitación-de-responsabilidad">2.9 Limitación de responsabilidad</h3>
+<p>En la medida en que lo permita la legislación aplicable, el titular del Sitio no asume responsabilidad por daños directos o indirectos derivados del acceso al Sitio, de su uso o de la imposibilidad de usarlo, incluidos los daños causados por software malicioso o por la interrupción del servicio. Esta limitación no se aplica a los daños causados de forma dolosa o por negligencia grave, ni a la responsabilidad que no pueda excluirse legalmente.</p>
+<hr />
+<h2 id="3-información-sobre-privacidad">3. Información sobre privacidad</h2>
+<h3 id="31-responsable-del-tratamiento">3.1 Responsable del tratamiento</h3>
+<p>El responsable del tratamiento de los datos personales a través de este Sitio es:</p>
+<p>Oleg Fadeev, Vogesenstrasse 33, 4056 Basilea, Suiza
+Correo electrónico para asuntos de privacidad: <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a></p>
+<p>No se ha designado un delegado de protección de datos, ya que no se cumplen los requisitos legales que obligan a ello.</p>
+<h3 id="32-normativa-aplicable">3.2 Normativa aplicable</h3>
+<p>Los tratamientos que se describen a continuación están sujetos a la Ley Federal suiza de Protección de Datos (LPD) y, cuando se cumplen las condiciones de su artículo 3, al Reglamento (UE) 2016/679 (RGPD).</p>
+<h3 id="33-datos-que-se-tratan">3.3 Datos que se tratan</h3>
+<p><strong>a) Registros de servidor y red de distribución de contenidos.</strong> El Sitio se aloja y se entrega a través de la red de Cloudflare. Al visitar el Sitio, Cloudflare trata automáticamente datos técnicos, en particular la dirección IP, la fecha y hora de la solicitud, el recurso solicitado, la página de procedencia, el tipo y versión del navegador, el sistema operativo y el volumen de datos transferidos. Estos datos son necesarios para entregar las páginas, mantener el servicio estable y protegerlo frente a ataques.</p>
+<p><strong>b) Formulario de contacto.</strong> Al enviar un mensaje se tratan: tu nombre, tu dirección de correo electrónico, el texto del mensaje, la confirmación de la casilla de privacidad y los datos técnicos asociados al envío (dirección IP, marca temporal, resultado de la verificación antispam).</p>
+<p><strong>c) Correspondencia por correo electrónico.</strong> Si escribes directamente por correo electrónico, o una vez que se responde a un mensaje del formulario, se tratan y se conservan el contenido de la correspondencia y sus metadatos asociados en el buzón de correo.</p>
+<p><strong>d) Verificación antispam.</strong> Cloudflare Turnstile trata datos técnicos del navegador y de la sesión para comprobar que el formulario no está siendo enviado por un bot automatizado.</p>
+<p>El Sitio no utiliza cookies publicitarias, analítica de marketing, píxeles de seguimiento, remarketing ni elaboración de perfiles.</p>
+<h3 id="34-finalidades-y-bases-jurídicas">3.4 Finalidades y bases jurídicas</h3>
+<table>
+<thead>
+<tr>
+  <th>Tratamiento</th>
+  <th>Finalidad</th>
+  <th>Base jurídica (RGPD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Registros de servidor y CDN</td>
+  <td>Entrega del Sitio, estabilidad y seguridad informática</td>
+  <td>Art. 6.1.f: interés legítimo en operar un sitio web seguro y funcional</td>
+</tr>
+<tr>
+  <td>Formulario de contacto y respuesta</td>
+  <td>Responder a tu consulta y, en su caso, preparar una posible colaboración</td>
+  <td>Art. 6.1.b: medidas precontractuales, y art. 6.1.f: interés legítimo en atender consultas profesionales</td>
+</tr>
+<tr>
+  <td>Casilla de privacidad del formulario</td>
+  <td>Acreditar que la información se facilitó antes del envío</td>
+  <td>Art. 6.1.a: consentimiento, y art. 7.1</td>
+</tr>
+<tr>
+  <td>Verificación antispam</td>
+  <td>Proteger el formulario frente a abusos y envíos automatizados</td>
+  <td>Art. 6.1.f: interés legítimo en prevenir el abuso</td>
+</tr>
+<tr>
+  <td>Conservación de la correspondencia</td>
+  <td>Documentar los contactos profesionales y cumplir obligaciones legales de conservación</td>
+  <td>Art. 6.1.f y art. 6.1.c</td>
+</tr>
+</tbody>
+</table>
+<p>Conforme a la LPD suiza, los tratamientos descritos son tratamientos ordinarios realizados de buena fe, con una finalidad reconocible y proporcionada a la consulta que envías.</p>
+<p>Puedes retirar tu consentimiento en cualquier momento con efectos para el futuro, sin que ello afecte a la licitud del tratamiento realizado antes de la retirada.</p>
+<h3 id="35-carácter-voluntario-de-los-datos">3.5 Carácter voluntario de los datos</h3>
+<p>No existe obligación legal ni contractual de facilitar datos. Ahora bien, el nombre, la dirección de correo electrónico y el mensaje son necesarios para poder responder. Si no se facilitan, la consulta no puede tramitarse.</p>
+<h3 id="36-proveedores-de-servicios">3.6 Proveedores de servicios</h3>
+<p>Los siguientes proveedores tratan datos por cuenta del responsable o en relación con el funcionamiento del Sitio:</p>
+<table>
+<thead>
+<tr>
+  <th>Proveedor</th>
+  <th>Función</th>
+  <th>Ubicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Cloudflare, Inc.</td>
+  <td>Alojamiento del Sitio, red de distribución de contenidos, registros de servidor, protección frente a ataques, verificación antispam Turnstile y reenvío, mediante Email Routing, del correo dirigido a las direcciones del dominio hacia el buzón de destino</td>
+  <td>Estados Unidos, con una red global de servidores que entregan el contenido desde el nodo más próximo a la persona que visita el Sitio</td>
+</tr>
+<tr>
+  <td>Formspree, Inc.</td>
+  <td>Recepción del formulario de contacto y reenvío del mensaje por correo electrónico. El servicio está configurado para no conservar los envíos en el panel de Formspree. Formspree aloja su servicio en Amazon Web Services en Estados Unidos</td>
+  <td>Estados Unidos</td>
+</tr>
+<tr>
+  <td>Google</td>
+  <td>Buzón de destino en el que se recibe y se conserva la correspondencia</td>
+  <td>Estados Unidos e Irlanda, según la entidad contratante aplicable</td>
+</tr>
+</tbody>
+</table>
+<p>El dominio está registrado a través de Soluciones Corporativas IP, S.L. (DonDominio), Manacor, España. El registrador trata los datos del titular del dominio para su administración y no trata datos personales de las personas que visitan el Sitio.</p>
+<p>Con Cloudflare y con Formspree están vigentes los acuerdos de encargo del tratamiento que estos proveedores ponen a disposición de sus clientes. El buzón de destino se opera mediante un servicio de correo de Google, sujeto a las condiciones de dicho servicio.</p>
+<h3 id="37-transferencias-internacionales">3.7 Transferencias internacionales</h3>
+<p>Algunos de los proveedores indicados están establecidos en Estados Unidos o pueden tratar datos fuera de Suiza y fuera del Espacio Económico Europeo.</p>
+<p>Estas transferencias se realizan al amparo de los mecanismos previstos en los artículos 44 a 49 del RGPD y en los artículos 16 y 17 de la LPD suiza, aplicados a cada proveedor del modo siguiente:</p>
+<ul>
+<li><strong>Cloudflare, Inc.:</strong> certificada en el Marco de Privacidad de Datos UE-EE. UU. y en el Marco de Privacidad de Datos Suiza-EE. UU., complementado con las cláusulas contractuales tipo de la Comisión Europea.</li>
+<li><strong>Formspree, Inc.:</strong> cláusulas contractuales tipo de la Comisión Europea, reconocidas por el Encargado Federal de Protección de Datos y Transparencia con las adaptaciones necesarias para Suiza.</li>
+<li><strong>Google:</strong> certificación en el Marco de Privacidad de Datos UE-EE. UU. y Suiza-EE. UU., complementada con las cláusulas contractuales tipo.</li>
+</ul>
+<p>Pese a estas garantías, no puede asegurarse plenamente un nivel de protección equivalente al suizo y al europeo en todos los países de destino, en particular en lo relativo al acceso por parte de autoridades públicas.</p>
+<h3 id="38-plazos-de-conservación">3.8 Plazos de conservación</h3>
+<ul>
+<li><strong>Registros de servidor y CDN:</strong> durante los plazos que aplican los proveedores con fines de seguridad y diagnóstico, por lo general breves.</li>
+<li><strong>Envíos del formulario:</strong> Formspree está configurado para no almacenar los envíos. El mensaje se transmite y se reenvía por correo electrónico sin quedar guardado en el panel del proveedor.</li>
+<li><strong>Correspondencia por correo electrónico:</strong> se conserva mientras sea necesaria para gestionar la relación profesional o la consulta, normalmente hasta 24 meses después del último contacto. Si surge una relación contractual, la correspondencia relativa a la misma se conserva durante los plazos legales de conservación, que en derecho suizo son de 10 años para los documentos comerciales.</li>
+</ul>
+<h3 id="39-seguridad">3.9 Seguridad</h3>
+<p>El Sitio se sirve exclusivamente mediante conexión cifrada TLS. Los envíos del formulario de contacto se transmiten por un canal cifrado. El acceso al buzón de correo y a las cuentas de los proveedores está protegido con contraseñas robustas y autenticación de dos factores. El correo electrónico ordinario no es un canal cifrado de extremo a extremo, y por ello el punto 2.3 pide que no se envíe información confidencial por esta vía.</p>
+<h3 id="310-tus-derechos">3.10 Tus derechos</h3>
+<p>Conforme al RGPD, cuando resulta aplicable, tienes derecho de acceso (art. 15), rectificación (art. 16), supresión (art. 17), limitación del tratamiento (art. 18), portabilidad de los datos (art. 20), oposición al tratamiento basado en el interés legítimo (art. 21) y retirada del consentimiento (art. 7.3).</p>
+<p>Conforme a la LPD suiza, tienes derecho de acceso (art. 25), derecho a obtener la rectificación, supresión o destrucción de los datos (art. 32), derecho a la portabilidad (art. 28) y derecho de oposición al tratamiento.</p>
+<p>Para ejercer estos derechos, escribe a <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a>. Recibirás respuesta en el plazo de un mes. Cuando sea necesario verificar tu identidad para proteger tus propios datos, podrá solicitarse información adicional.</p>
+<p>El ejercicio de estos derechos es gratuito.</p>
+<h3 id="311-autoridades-de-control">3.11 Autoridades de control</h3>
+<p>Si consideras que el tratamiento infringe la normativa de protección de datos, puedes presentar una reclamación ante:</p>
+<ul>
+<li><strong>Suiza:</strong> Encargado Federal de Protección de Datos y Transparencia (PFPDT/EDÖB), Feldeggweg 1, 3003 Berna, www.edoeb.admin.ch</li>
+<li><strong>Espacio Económico Europeo:</strong> la autoridad de control de tu país de residencia, de tu lugar de trabajo o del lugar de la supuesta infracción. En España, la Agencia Española de Protección de Datos, www.aepd.es</li>
+</ul>
+<h3 id="312-cookies-y-tecnologías-similares">3.12 Cookies y tecnologías similares</h3>
+<p>El Sitio no instala cookies publicitarias, de analítica ni de elaboración de perfiles.</p>
+<p>Solo se utilizan elementos técnicamente necesarios: el almacenamiento en tu navegador de la confirmación del aviso de privacidad, y las cookies o tokens que Cloudflare Turnstile y los servicios de seguridad de Cloudflare necesitan para verificar la sesión y proteger el Sitio. Estos elementos no requieren consentimiento porque son estrictamente necesarios para el servicio solicitado.</p>
+<h3 id="313-ausencia-de-decisiones-automatizadas">3.13 Ausencia de decisiones automatizadas</h3>
+<p>No se realizan decisiones individuales automatizadas, incluida la elaboración de perfiles, en el sentido del artículo 22 del RGPD ni del artículo 21 de la LPD suiza.</p>
+<h3 id="314-menores">3.14 Menores</h3>
+<p>El Sitio se dirige a un público profesional y no está destinado a menores de 16 años. No se recogen conscientemente datos de menores.</p>
+<hr />
+<h2 id="4-modificaciones-de-este-aviso">4. Modificaciones de este aviso</h2>
+<p>Este aviso puede actualizarse para reflejar cambios en los servicios utilizados, en las funcionalidades del Sitio o en la normativa aplicable. La versión y la fecha de entrada en vigor que figuran al principio de la página indican siempre el texto vigente. El uso continuado del Sitio tras la publicación de una nueva versión supone el conocimiento de la misma.</p>
+<p>Las versiones anteriores están disponibles previa solicitud en <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a>.</p>
+<hr />
+<h2 id="5-versiones-lingüísticas">5. Versiones lingüísticas</h2>
+<p>Esta página se publica en inglés, español y alemán. Las versiones pretenden ser equivalentes en contenido. <strong>En caso de discrepancia o diferencia de interpretación entre ellas, prevalece la versión en inglés.</strong></p>
+<hr />
+<h2 id="6-ley-aplicable-y-jurisdicción">6. Ley aplicable y jurisdicción</h2>
+<p>Este aviso y el uso del Sitio se rigen por el derecho suizo, sin perjuicio de las disposiciones imperativas del derecho del país de residencia de los consumidores domiciliados en el Espacio Económico Europeo.</p>
+<p>El fuero competente es Basilea-Ciudad, Suiza, en la medida en que no resulte aplicable un fuero legal imperativo.</p>
+`,
+  de: `<h1 id="impressum-amp-datenschutzerklärung">Impressum &amp; Datenschutzerklärung</h1>
+<p><strong>Version 2.0. Gültig ab: 27. Juli 2026.</strong></p>
+<p>Diese Seite enthält das Impressum, die Nutzungsbedingungen und die Datenschutzinformationen für die Website fadeev.eu (die &quot;Website&quot;). Sie gilt für alle Besucherinnen und Besucher.</p>
+<h2 id="inhalt">Inhalt</h2>
+<ol>
+<li><a href="#1-impressum">Impressum</a></li>
+<li><a href="#2-nutzungsbedingungen">Nutzungsbedingungen</a></li>
+<li><a href="#3-datenschutzinformationen">Datenschutzinformationen</a></li>
+<li><a href="#4-%C3%A4nderungen-dieser-erkl%C3%A4rung">Änderungen dieser Erklärung</a></li>
+<li><a href="#5-sprachfassungen">Sprachfassungen</a></li>
+<li><a href="#6-anwendbares-recht-und-gerichtsstand">Anwendbares Recht und Gerichtsstand</a></li>
+</ol>
+<hr />
+<h2 id="1-impressum">1. Impressum</h2>
+<p><strong>Inhaber der Website und verantwortlich für den Inhalt</strong></p>
+<p>Oleg Fadeev
+Vogesenstrasse 33
+4056 Basel
+Schweiz</p>
+<p><strong>Kontakt:</strong> <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a></p>
+<p><strong>Berufliche Tätigkeit:</strong> selbständige Beratungsdienstleistungen in den Bereichen SAP S/4HANA Finance (FI/CO), FSCM, Treasury und Finanztransformation.</p>
+<p><strong>Mehrwertsteuer:</strong> nicht der schweizerischen MWST unterstellt und daher ohne MWST-Nummer.</p>
+<p><strong>Handelsregister:</strong> nicht im Handelsregister eingetragen.</p>
+<p><strong>Berufsbezeichnung:</strong> die auf dieser Website beschriebene Tätigkeit ist nach schweizerischem Recht kein reglementierter Beruf.</p>
+<hr />
+<h2 id="2-nutzungsbedingungen">2. Nutzungsbedingungen</h2>
+<h3 id="21-zweck-der-website">2.1 Zweck der Website</h3>
+<p>Die Website ist ein persönliches berufliches Profil. Sie stellt die berufliche Erfahrung des Inhabers dar und bietet einen Kontaktkanal für berufliche Anfragen.</p>
+<h3 id="22-keine-beratung-und-kein-mandatsverhältnis">2.2 Keine Beratung und kein Mandatsverhältnis</h3>
+<p>Die Inhalte der Website sind allgemeine Informationen über berufliche Erfahrung und Tätigkeitsfelder. Sie stellen keine beratende, technische, steuerliche, buchhalterische oder rechtliche Beratung dar und dürfen keiner Entscheidung zugrunde gelegt werden. Das Senden einer Nachricht über das Kontaktformular oder per E-Mail begründet weder ein Mandatsverhältnis noch einen Vertrag noch eine Verpflichtung zur Erbringung von Leistungen.</p>
+<h3 id="23-keine-vertraulichen-informationen-senden">2.3 Keine vertraulichen Informationen senden</h3>
+<p>Bitte senden Sie über das Kontaktformular oder per unverschlüsselter E-Mail keine vertraulichen Informationen, keine Personendaten Dritter, keine Kundendaten, keine Systeminformationen, keine Zugangsdaten, keine Bildschirmaufnahmen von Produktivsystemen und keine Unterlagen, die einer Geheimhaltungsvereinbarung unterliegen. Senden Sie nur eine kurze Beschreibung Ihres Anliegens. Vertrauliche Informationen können später über einen geeigneten und vereinbarten Kanal ausgetauscht werden.</p>
+<h3 id="24-urheberrecht">2.4 Urheberrecht</h3>
+<p>Die Texte, die Gestaltung, die Struktur und die Bilder dieser Website sind urheberrechtlich geschützt und stehen dem Inhaber der Website zu, sofern nichts anderes angegeben ist. Die Vervielfältigung, Verbreitung oder Veröffentlichung von Teilen der Website über das übliche Betrachten hinaus bedarf der vorgängigen schriftlichen Zustimmung. Kurze Zitate mit klarer Quellenangabe und Link zur Quelle sind zulässig.</p>
+<h3 id="25-marken-und-fehlende-verbindung">2.5 Marken und fehlende Verbindung</h3>
+<p>SAP, S/4HANA, SAP ERP und weitere SAP-Produktnamen sind Marken oder eingetragene Marken der SAP SE in Deutschland und in weiteren Ländern. Andere auf dieser Website genannte Produkt-, Firmen- und Markennamen stehen im Eigentum der jeweiligen Inhaber.</p>
+<p>Die Verwendung dieser Namen auf dieser Website erfolgt rein beschreibend, um die Technologien anzugeben, mit denen der Inhaber der Website gearbeitet hat. Sie begründet keine Verbindung zu, keine Förderung durch, keine Billigung durch und keine Zertifizierung durch die SAP SE oder ein anderes genanntes Unternehmen, soweit dies nicht ausdrücklich angegeben ist. Der Inhaber der Website ist kein Vertreter der SAP SE.</p>
+<p>Auf dieser Website wird kein Kundenname ohne die entsprechende Zustimmung veröffentlicht.</p>
+<h3 id="26-richtigkeit-der-inhalte">2.6 Richtigkeit der Inhalte</h3>
+<p>Die Inhalte werden mit angemessener Sorgfalt erstellt. Es wird jedoch nicht gewährleistet, dass sie vollständig, richtig oder aktuell sind. Der Inhaber der Website kann Inhalte jederzeit und ohne Vorankündigung ändern oder entfernen.</p>
+<h3 id="27-verfügbarkeit">2.7 Verfügbarkeit</h3>
+<p>Es wird nicht gewährleistet, dass die Website unterbrechungsfrei oder fehlerfrei verfügbar ist. Der Zugang kann für Wartungsarbeiten oder aus technischen Gründen ausgesetzt werden.</p>
+<h3 id="28-externe-links">2.8 Externe Links</h3>
+<p>Die Website enthält Links zu externen Websites, etwa zu LinkedIn. Diese Links werden ausschliesslich der Bequemlichkeit halber angeboten. Der Inhaber der Website hat keinen Einfluss auf die Inhalte, die Bedingungen und die Datenschutzpraxis dieser Websites und übernimmt dafür keine Verantwortung. Der Zugriff erfolgt auf eigenes Risiko.</p>
+<h3 id="29-haftungsbeschränkung">2.9 Haftungsbeschränkung</h3>
+<p>Soweit das anwendbare Recht dies zulässt, übernimmt der Inhaber der Website keine Haftung für direkte oder indirekte Schäden, die aus dem Zugriff auf die Website, aus ihrer Nutzung oder aus der Unmöglichkeit ihrer Nutzung entstehen, einschliesslich Schäden durch Schadsoftware oder durch Unterbrechung des Dienstes. Diese Beschränkung gilt nicht für absichtlich oder grobfahrlässig verursachte Schäden und nicht für Haftung, die gesetzlich nicht wegbedungen werden kann.</p>
+<hr />
+<h2 id="3-datenschutzinformationen">3. Datenschutzinformationen</h2>
+<h3 id="31-verantwortlicher">3.1 Verantwortlicher</h3>
+<p>Verantwortlich für die Bearbeitung von Personendaten über diese Website ist:</p>
+<p>Oleg Fadeev, Vogesenstrasse 33, 4056 Basel, Schweiz
+E-Mail für Datenschutzanliegen: <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a></p>
+<p>Es wurde kein Datenschutzberater bzw. Datenschutzbeauftragter ernannt, da die gesetzlichen Voraussetzungen dafür nicht erfüllt sind.</p>
+<h3 id="32-anwendbares-recht">3.2 Anwendbares Recht</h3>
+<p>Die nachstehend beschriebenen Bearbeitungen unterliegen dem schweizerischen Datenschutzgesetz (DSG) und, sofern die Voraussetzungen von Art. 3 erfüllt sind, der Verordnung (EU) 2016/679 (DSGVO).</p>
+<h3 id="33-bearbeitete-daten">3.3 Bearbeitete Daten</h3>
+<p><strong>a) Serverprotokolle und Content Delivery Network.</strong> Die Website wird über das Netz von Cloudflare gehostet und ausgeliefert. Beim Besuch der Website bearbeitet Cloudflare automatisch technische Daten, insbesondere die IP-Adresse, Datum und Uhrzeit der Anfrage, die angeforderte Ressource, die verweisende Seite, Typ und Version des Browsers, das Betriebssystem und die übertragene Datenmenge. Diese Daten sind erforderlich, um die Seiten auszuliefern, den Betrieb stabil zu halten und ihn vor Angriffen zu schützen.</p>
+<p><strong>b) Kontaktformular.</strong> Beim Senden einer Nachricht werden bearbeitet: Ihr Name, Ihre E-Mail-Adresse, der Text Ihrer Nachricht, die Bestätigung des Datenschutz-Kontrollkästchens sowie die mit dem Versand verbundenen technischen Daten (IP-Adresse, Zeitstempel, Ergebnis der Spam-Prüfung).</p>
+<p><strong>c) E-Mail-Korrespondenz.</strong> Wenn Sie direkt per E-Mail schreiben oder sobald eine Nachricht aus dem Kontaktformular beantwortet wird, werden der Inhalt der Korrespondenz und die zugehörigen Metadaten im E-Mail-Postfach bearbeitet und aufbewahrt.</p>
+<p><strong>d) Spam-Prüfung.</strong> Cloudflare Turnstile bearbeitet technische Browser- und Sitzungsdaten, um zu prüfen, ob das Formular von einem automatisierten Bot abgesendet wird.</p>
+<p>Die Website verwendet keine Werbe-Cookies, kein Marketing-Tracking, keine Tracking-Pixel, kein Remarketing und keine Profilbildung.</p>
+<h3 id="34-zwecke-und-rechtsgrundlagen">3.4 Zwecke und Rechtsgrundlagen</h3>
+<table>
+<thead>
+<tr>
+  <th>Bearbeitung</th>
+  <th>Zweck</th>
+  <th>Rechtsgrundlage (DSGVO)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Serverprotokolle und CDN</td>
+  <td>Auslieferung der Website, Stabilität, IT-Sicherheit</td>
+  <td>Art. 6 Abs. 1 lit. f: berechtigtes Interesse am Betrieb einer sicheren und funktionsfähigen Website</td>
+</tr>
+<tr>
+  <td>Kontaktformular und Antwort</td>
+  <td>Beantwortung Ihrer Anfrage und gegebenenfalls Vorbereitung einer möglichen Zusammenarbeit</td>
+  <td>Art. 6 Abs. 1 lit. b: vorvertragliche Massnahmen, und Art. 6 Abs. 1 lit. f: berechtigtes Interesse an der Beantwortung beruflicher Anfragen</td>
+</tr>
+<tr>
+  <td>Datenschutz-Kontrollkästchen im Formular</td>
+  <td>Nachweis, dass die Information vor dem Absenden erteilt wurde</td>
+  <td>Art. 6 Abs. 1 lit. a: Einwilligung, und Art. 7 Abs. 1</td>
+</tr>
+<tr>
+  <td>Spam-Prüfung</td>
+  <td>Schutz des Formulars vor Missbrauch und automatisierten Einsendungen</td>
+  <td>Art. 6 Abs. 1 lit. f: berechtigtes Interesse an der Missbrauchsabwehr</td>
+</tr>
+<tr>
+  <td>Aufbewahrung der Korrespondenz</td>
+  <td>Dokumentation beruflicher Kontakte und Erfüllung gesetzlicher Aufbewahrungspflichten</td>
+  <td>Art. 6 Abs. 1 lit. f und Art. 6 Abs. 1 lit. c</td>
+</tr>
+</tbody>
+</table>
+<p>Nach schweizerischem DSG handelt es sich um gewöhnliche Bearbeitungen, die nach Treu und Glauben, zu einem erkennbaren Zweck und verhältnismässig zu Ihrer Anfrage erfolgen.</p>
+<p>Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen. Die Rechtmässigkeit der bis zum Widerruf erfolgten Bearbeitung bleibt davon unberührt.</p>
+<h3 id="35-freiwilligkeit-der-angaben">3.5 Freiwilligkeit der Angaben</h3>
+<p>Es besteht keine gesetzliche oder vertragliche Pflicht, Daten anzugeben. Name, E-Mail-Adresse und Nachricht sind jedoch erforderlich, um antworten zu können. Ohne diese Angaben kann die Anfrage nicht bearbeitet werden.</p>
+<h3 id="36-dienstleister">3.6 Dienstleister</h3>
+<p>Die folgenden Anbieter bearbeiten Daten im Auftrag des Verantwortlichen oder im Zusammenhang mit dem Betrieb der Website:</p>
+<table>
+<thead>
+<tr>
+  <th>Anbieter</th>
+  <th>Funktion</th>
+  <th>Standort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Cloudflare, Inc.</td>
+  <td>Hosting der Website, Content Delivery Network, Serverprotokolle, Schutz vor Angriffen, Turnstile-Spam-Prüfung sowie Weiterleitung der an die Domain gerichteten E-Mails an das Zielpostfach mittels Email Routing</td>
+  <td>Vereinigte Staaten, mit einem globalen Servernetz, das die Inhalte über den nächstgelegenen Knoten ausliefert</td>
+</tr>
+<tr>
+  <td>Formspree, Inc.</td>
+  <td>Entgegennahme des Kontaktformulars und Weiterleitung der Nachricht per E-Mail. Der Dienst ist so konfiguriert, dass die Einsendungen im Formspree-Dashboard nicht aufbewahrt werden. Formspree betreibt den Dienst bei Amazon Web Services in den Vereinigten Staaten</td>
+  <td>Vereinigte Staaten</td>
+</tr>
+<tr>
+  <td>Google</td>
+  <td>Zielpostfach, in dem die Korrespondenz empfangen und aufbewahrt wird</td>
+  <td>Vereinigte Staaten und Irland, je nach massgebender Vertragspartei</td>
+</tr>
+</tbody>
+</table>
+<p>Die Domain ist über Soluciones Corporativas IP, S.L. (DonDominio), Manacor, Spanien, registriert. Der Registrar bearbeitet die Daten des Domaininhabers zur Verwaltung der Domain und bearbeitet keine Personendaten der Besucherinnen und Besucher der Website.</p>
+<p>Mit Cloudflare und mit Formspree gelten die von diesen Anbietern bereitgestellten Auftragsverarbeitungsverträge. Das Zielpostfach wird über einen E-Mail-Dienst von Google betrieben und untersteht dessen Nutzungsbedingungen.</p>
+<h3 id="37-übermittlung-ins-ausland">3.7 Übermittlung ins Ausland</h3>
+<p>Einige der genannten Anbieter haben ihren Sitz in den Vereinigten Staaten oder bearbeiten Daten ausserhalb der Schweiz und ausserhalb des Europäischen Wirtschaftsraums.</p>
+<p>Diese Übermittlungen erfolgen auf Grundlage der in Art. 44 bis 49 DSGVO und in Art. 16 und 17 DSG vorgesehenen Mechanismen, die für die einzelnen Anbieter wie folgt zur Anwendung kommen:</p>
+<ul>
+<li><strong>Cloudflare, Inc.:</strong> zertifiziert unter dem EU-U.S. Data Privacy Framework und dem Swiss-U.S. Data Privacy Framework, ergänzt durch die Standardvertragsklauseln der Europäischen Kommission.</li>
+<li><strong>Formspree, Inc.:</strong> Standardvertragsklauseln der Europäischen Kommission, die vom Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten mit den für die Schweiz erforderlichen Anpassungen anerkannt sind.</li>
+<li><strong>Google:</strong> Zertifizierung unter dem EU-U.S. und dem Swiss-U.S. Data Privacy Framework, ergänzt durch die Standardvertragsklauseln.</li>
+</ul>
+<p>Trotz dieser Garantien kann in jedem Empfängerland kein mit dem schweizerischen und europäischen Niveau vollständig gleichwertiger Schutz zugesichert werden, insbesondere nicht im Hinblick auf Zugriffe durch Behörden.</p>
+<h3 id="38-aufbewahrungsdauer">3.8 Aufbewahrungsdauer</h3>
+<ul>
+<li><strong>Serverprotokolle und CDN:</strong> für die von den Anbietern zu Sicherheits- und Diagnosezwecken angewandten, in der Regel kurzen Fristen.</li>
+<li><strong>Einsendungen des Kontaktformulars:</strong> Formspree ist so konfiguriert, dass die Einsendungen nicht gespeichert werden. Die Nachricht wird übermittelt und per E-Mail weitergeleitet, ohne im Dashboard des Anbieters aufbewahrt zu werden.</li>
+<li><strong>E-Mail-Korrespondenz:</strong> wird so lange aufbewahrt, wie dies zur Bearbeitung der Anfrage oder der beruflichen Beziehung erforderlich ist, in der Regel bis zu 24 Monate nach dem letzten Kontakt. Entsteht ein Vertragsverhältnis, wird die zugehörige Korrespondenz während der gesetzlichen Aufbewahrungsfristen aufbewahrt, die nach schweizerischem Recht für Geschäftsunterlagen 10 Jahre betragen.</li>
+</ul>
+<h3 id="39-sicherheit">3.9 Sicherheit</h3>
+<p>Die Website wird ausschliesslich über eine verschlüsselte TLS-Verbindung ausgeliefert. Die Einsendungen des Kontaktformulars werden über einen verschlüsselten Kanal übertragen. Der Zugang zum Postfach und zu den Anbieterkonten ist durch starke Passwörter und Zwei-Faktor-Authentisierung geschützt. Gewöhnliche E-Mail ist kein Ende-zu-Ende-verschlüsselter Kanal. Aus diesem Grund bittet Ziffer 2.3 darum, auf diesem Weg keine vertraulichen Informationen zu senden.</p>
+<h3 id="310-ihre-rechte">3.10 Ihre Rechte</h3>
+<p>Nach der DSGVO, soweit sie anwendbar ist, haben Sie das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Bearbeitung (Art. 18), Datenübertragbarkeit (Art. 20), Widerspruch gegen eine auf berechtigtem Interesse beruhende Bearbeitung (Art. 21) und Widerruf der Einwilligung (Art. 7 Abs. 3).</p>
+<p>Nach dem schweizerischen DSG haben Sie das Auskunftsrecht (Art. 25), das Recht auf Berichtigung, Löschung oder Vernichtung der Daten (Art. 32), das Recht auf Datenherausgabe und Datenübertragung (Art. 28) sowie das Recht, gegen die Bearbeitung Widerspruch zu erheben.</p>
+<p>Zur Ausübung dieser Rechte schreiben Sie an <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a>. Sie erhalten innerhalb eines Monats eine Antwort. Soweit zur Sicherung Ihrer eigenen Daten eine Identitätsprüfung erforderlich ist, können zusätzliche Angaben verlangt werden.</p>
+<p>Die Ausübung dieser Rechte ist kostenlos.</p>
+<h3 id="311-aufsichtsbehörden">3.11 Aufsichtsbehörden</h3>
+<p>Wenn Sie der Ansicht sind, dass die Bearbeitung gegen das Datenschutzrecht verstösst, können Sie eine Beschwerde einreichen bei:</p>
+<ul>
+<li><strong>Schweiz:</strong> Eidgenössischer Datenschutz- und Öffentlichkeitsbeauftragter (EDÖB), Feldeggweg 1, 3003 Bern, www.edoeb.admin.ch</li>
+<li><strong>Europäischer Wirtschaftsraum:</strong> der Aufsichtsbehörde Ihres Wohnsitzlands, Ihres Arbeitsorts oder des Orts des mutmasslichen Verstosses.</li>
+</ul>
+<h3 id="312-cookies-und-ähnliche-technologien">3.12 Cookies und ähnliche Technologien</h3>
+<p>Die Website setzt keine Werbe-, Analyse- oder Profilbildungs-Cookies.</p>
+<p>Verwendet werden ausschliesslich technisch notwendige Elemente: die Speicherung der Bestätigung des Datenschutzhinweises in Ihrem Browser sowie die Cookies oder Token, die Cloudflare Turnstile und die Sicherheitsdienste von Cloudflare zur Prüfung der Sitzung und zum Schutz der Website benötigen. Diese Elemente bedürfen keiner Einwilligung, da sie für den angeforderten Dienst unbedingt erforderlich sind.</p>
+<h3 id="313-keine-automatisierte-entscheidfindung">3.13 Keine automatisierte Entscheidfindung</h3>
+<p>Es findet keine automatisierte Entscheidfindung im Einzelfall, einschliesslich Profiling, im Sinne von Art. 22 DSGVO und Art. 21 DSG statt.</p>
+<h3 id="314-minderjährige">3.14 Minderjährige</h3>
+<p>Die Website richtet sich an ein berufliches Publikum und ist nicht für Personen unter 16 Jahren bestimmt. Es werden wissentlich keine Daten von Minderjährigen erhoben.</p>
+<hr />
+<h2 id="4-änderungen-dieser-erklärung">4. Änderungen dieser Erklärung</h2>
+<p>Diese Erklärung kann angepasst werden, um Änderungen der eingesetzten Dienste, der Funktionen der Website oder der anwendbaren Rechtslage abzubilden. Version und Gültigkeitsdatum am Anfang der Seite geben stets den geltenden Text an. Die weitere Nutzung der Website nach Veröffentlichung einer neuen Version gilt als Kenntnisnahme dieser Version.</p>
+<p>Frühere Versionen sind auf Anfrage unter <a class="protected-email" href="#email" data-user="ycavirp" data-domain="ue.veedaf">Show email address</a> erhältlich.</p>
+<hr />
+<h2 id="5-sprachfassungen">5. Sprachfassungen</h2>
+<p>Diese Seite wird auf Englisch, Spanisch und Deutsch veröffentlicht. Die Fassungen sollen inhaltlich gleichwertig sein. <strong>Bei Abweichungen oder Auslegungsunterschieden zwischen ihnen ist die englische Fassung massgebend.</strong></p>
+<hr />
+<h2 id="6-anwendbares-recht-und-gerichtsstand">6. Anwendbares Recht und Gerichtsstand</h2>
+<p>Diese Erklärung und die Nutzung der Website unterstehen schweizerischem Recht, unter Vorbehalt der zwingenden Bestimmungen des Rechts am Wohnsitz von Konsumentinnen und Konsumenten mit Wohnsitz im Europäischen Wirtschaftsraum.</p>
+<p>Gerichtsstand ist Basel-Stadt, Schweiz, soweit kein zwingender gesetzlicher Gerichtsstand besteht.</p>
+`,
+};
+const titles = {
+  en: 'Privacy & Legal Notice',
+  es: 'Aviso legal y de privacidad',
+  de: 'Impressum & Datenschutzerklärung',
+};
+const descriptions = {
+  en: 'Legal notice, terms of use and privacy information for fadeev.eu.',
+  es: 'Aviso legal, condiciones de uso e información sobre privacidad de fadeev.eu.',
+  de: 'Impressum, Nutzungsbedingungen und Datenschutzinformationen für fadeev.eu.',
+};
+const canonical = new URL(pathFor(lang), data.siteUrl).toString();
 ---
 
 <!doctype html>
@@ -118,55 +571,23 @@ const allSections = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="index,follow" />
-    <meta name="description" content={content.intro} />
+    <meta name="description" content={descriptions[lang]} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <title>{pageTitle}</title>
+    <title>{titles[lang]} | Oleg Fadeev</title>
   </head>
   <body>
     <main class="legal-page">
       <article class="legal-card">
         <nav class="legal-top" aria-label="Legal navigation">
-          <a href={backHref}>← {content.back}</a>
-          <div class="legal-languages" aria-label={content.language}>
+          <a href={backHref}>← {labels[lang].back}</a>
+          <div class="legal-languages" aria-label={labels[lang].language}>
             {(['en','es','de'] as Language[]).map((language) => (
               <a href={pathFor(language)} aria-current={language === lang ? 'page' : undefined}>{languageNames[language]}</a>
             ))}
           </div>
         </nav>
-        <p class="updated">{content.updated}</p>
-        <h1>{content.title}</h1>
-        <p class="intro">{content.intro}</p>
-        {allSections.map((group) => (
-          <section class="document-group">
-            <h2 class="group-title">{group.title}</h2>
-            {group.sections.map(([heading, text]) => {
-              const parts = text.split(emailToken);
-              return (
-                <section class="document-section">
-                  <h3>{heading}</h3>
-                  <p>
-                    {parts.map((part, index) => (
-                      <Fragment>
-                        {part}
-                        {index < parts.length - 1 && (
-                          <a
-                            class="protected-email"
-                            href="#email"
-                            data-user="ycavirp"
-                            data-domain="ue.veedaf"
-                          >
-                            {content.emailFallback}
-                          </a>
-                        )}
-                      </Fragment>
-                    ))}
-                  </p>
-                </section>
-              );
-            })}
-          </section>
-        ))}
+        <div class="legal-content" set:html={documents[lang]} />
       </article>
     </main>
     <script is:inline>
@@ -180,28 +601,36 @@ const allSections = [
   </body>
 </html>
 
-<style>
-  :root { color-scheme: dark; --navy:#06152f; --card:#f6f9fc; --ink:#0a2853; --muted:#60799c; --blue:#1265cd; }
+<style is:global>
+  :root { color-scheme: dark; --navy:#06152f; --card:#f6f9fc; --ink:#0a2853; --muted:#526d8f; --blue:#1265cd; }
   * { box-sizing:border-box; }
-  html { min-width:320px; background:var(--navy); }
-  body { min-width:320px; margin:0; color:var(--ink); font-family:Manrope, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:radial-gradient(circle at 12% 14%,rgba(52,151,255,.34),transparent 29rem),linear-gradient(125deg,#06152f 0%,#092e67 49%,#061630 100%); }
-  .legal-page { min-height:100svh; display:grid; place-items:center; padding:clamp(18px,4vw,52px); }
-  .legal-card { width:min(960px,100%); padding:clamp(24px,4vw,52px); border-radius:28px; background:var(--card); box-shadow:0 34px 90px rgba(1,11,31,.36); }
+  html { min-width:320px; scroll-behavior:smooth; background:var(--navy); }
+  body { min-width:320px; margin:0; color:var(--ink); font-family:Manrope,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:radial-gradient(circle at 12% 14%,rgba(52,151,255,.34),transparent 29rem),linear-gradient(125deg,#06152f 0%,#092e67 49%,#061630 100%); }
+  .legal-page { min-height:100svh; display:grid; place-items:start center; padding:clamp(18px,4vw,52px); }
+  .legal-card { width:min(1040px,100%); padding:clamp(24px,4vw,56px); border-radius:28px; background:var(--card); box-shadow:0 34px 90px rgba(1,11,31,.36); }
   .legal-top { display:flex; justify-content:space-between; align-items:center; gap:18px; margin-bottom:34px; }
-  a { color:var(--blue); font-weight:800; text-decoration:none; }
-  a:hover { text-decoration:underline; text-underline-offset:3px; }
+  .legal-card a { color:var(--blue); font-weight:750; text-decoration:none; }
+  .legal-card a:hover { text-decoration:underline; text-underline-offset:3px; }
   .protected-email { overflow-wrap:anywhere; }
   .legal-languages { display:flex; gap:8px; }
   .legal-languages a { display:grid; place-items:center; min-width:38px; min-height:34px; border:1px solid #d5e3f1; border-radius:10px; color:#315f90; font-size:.82rem; }
   .legal-languages a[aria-current="page"] { color:#fff; border-color:var(--blue); background:var(--blue); }
-  .updated { margin:0 0 10px; color:#60799c; font-size:.82rem; font-weight:700; }
-  h1 { margin:0; color:#0a2a59; font-size:clamp(2.1rem,5vw,4rem); line-height:.96; letter-spacing:-.07em; }
-  .intro { margin:18px 0 34px; color:#456486; font-size:1.05rem; line-height:1.65; }
-  .document-group { padding:26px 0 6px; border-top:1px solid #dce9f7; }
-  .group-title { margin:0 0 4px; color:#0a2a59; font-size:1.45rem; letter-spacing:-.035em; }
-  .document-section { padding:18px 0; border-top:1px solid #dce9f7; }
-  .document-section:first-of-type { border-top:0; }
-  h3 { margin:0 0 8px; color:#123d70; font-size:1.08rem; }
-  p { margin:0; color:var(--muted); line-height:1.7; }
-  @media (max-width:620px) { .legal-top { align-items:flex-start; flex-direction:column; } .legal-card { border-radius:22px; } }
+  .legal-content h1 { margin:0 0 14px; color:#0a2a59; font-size:clamp(2.25rem,5vw,4.4rem); line-height:.98; letter-spacing:-.065em; }
+  .legal-content h2 { margin:44px 0 16px; padding-top:26px; border-top:1px solid #dce9f7; color:#0a2a59; font-size:clamp(1.45rem,2.5vw,2rem); letter-spacing:-.035em; }
+  .legal-content h3 { margin:28px 0 10px; color:#123d70; font-size:1.12rem; }
+  .legal-content p, .legal-content li { color:var(--muted); line-height:1.72; }
+  .legal-content p { margin:0 0 16px; }
+  .legal-content ul, .legal-content ol { padding-left:1.4rem; }
+  .legal-content strong { color:#244c78; }
+  .legal-content hr { margin:34px 0; border:0; border-top:1px solid #dce9f7; }
+  .legal-content table { width:100%; margin:18px 0 26px; border-collapse:collapse; border:1px solid #cfdeed; font-size:.94rem; }
+  .legal-content th, .legal-content td { padding:12px 14px; border:1px solid #cfdeed; vertical-align:top; text-align:left; color:var(--muted); line-height:1.55; }
+  .legal-content th { color:#123d70; background:#eaf2fa; }
+  .legal-content code { padding:.12rem .35rem; border-radius:6px; background:#e6eef7; }
+  @media (max-width:720px) {
+    .legal-top { align-items:flex-start; flex-direction:column; }
+    .legal-card { border-radius:22px; padding:24px 20px; }
+    .legal-content table { display:block; overflow-x:auto; }
+    .legal-content h2 { margin-top:34px; }
+  }
 </style>
