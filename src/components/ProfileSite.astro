@@ -137,12 +137,20 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
         </section>
 
         <section class="contact" id="contact" aria-labelledby="contact-title">
-          <div>
+          <div class="contact-intro">
             <p class="eyebrow">{copy.contactEyebrow}</p>
             <h2 id="contact-title">{copy.contactTitle}</h2>
             <p>{copy.contactText}</p>
+            <img
+              class="exali-badge"
+              src="/exali-haftpflicht-sicher.png"
+              width="92"
+              height="107"
+              loading="lazy"
+              alt="Professional liability insurance by exali"
+            />
           </div>
-          <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} />
+          <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} lang={lang} />
         </section>
       </article>
     </main>
@@ -197,6 +205,8 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
   .contact .eyebrow { margin-bottom:10px; color:#1978cf; }
   .contact h2 { max-width:440px; margin:0; color:#0a2a59; font-size:clamp(1.9rem,3.1vw,3.2rem); font-weight:800; letter-spacing:-.075em; line-height:.98; }
   .contact > div > p:not(.eyebrow) { max-width:365px; margin:14px 0 0; color:#60799c; font-size:.92rem; line-height:1.62; }
+  .contact-intro { align-self:stretch; display:flex; flex-direction:column; }
+  .exali-badge { display:block; width:92px; height:auto; margin-top:28px; object-fit:contain; }
   .contact-form { display:grid; gap:14px; padding:22px; border:1px solid #dce9f7; border-radius:19px; background:#fff; box-shadow:0 16px 38px rgba(24,69,119,.08),inset 0 1px 0 rgba(255,255,255,.86); }
   .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .contact-form label { display:grid; gap:7px; color:#456486; font-size:.7rem; font-weight:800; letter-spacing:.04em; }
@@ -218,6 +228,6 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
   .form-status.is-error { color:#b22935; }
   .honeypot { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; }
   @media (min-width:1180px) { .focus-list { gap:11px; } .focus-list li { padding:10px 14px; font-size:.71rem; } .field-row { gap:16px; } }
-  @media (max-width:780px) { .page { padding:0; align-items:stretch; } .shell { min-height:100svh; border-radius:0; border-inline:0; } .topbar { padding:20px 20px 0; } .site-label { font-size:.61rem; letter-spacing:.13em; } .language summary { min-height:38px; padding:0 12px; } .hero { grid-template-columns:1fr; padding:46px 20px 52px; gap:28px; } .hero-copy { order:2; } .portrait-stage { order:1; min-height:250px; } h1 { font-size:clamp(3.15rem,15vw,5.2rem); } .portrait-frame { width:215px; } .portrait-backdrop { width:255px; height:255px; } .portrait-chip { right:0; bottom:5px; } .contact { grid-template-columns:1fr; padding:38px 20px; } .field-row { grid-template-columns:1fr; } .form-bottom { align-items:stretch; flex-direction:column; } .send-column { justify-items:stretch; } .send-button { width:100%; } .form-status { max-width:none; text-align:left; } .contact-form { padding:16px; } }
+  @media (max-width:780px) { .exali-badge { width:82px; margin-top:22px; } .page { padding:0; align-items:stretch; } .shell { min-height:100svh; border-radius:0; border-inline:0; } .topbar { padding:20px 20px 0; } .site-label { font-size:.61rem; letter-spacing:.13em; } .language summary { min-height:38px; padding:0 12px; } .hero { grid-template-columns:1fr; padding:46px 20px 52px; gap:28px; } .hero-copy { order:2; } .portrait-stage { order:1; min-height:250px; } h1 { font-size:clamp(3.15rem,15vw,5.2rem); } .portrait-frame { width:215px; } .portrait-backdrop { width:255px; height:255px; } .portrait-chip { right:0; bottom:5px; } .contact { grid-template-columns:1fr; padding:38px 20px; } .field-row { grid-template-columns:1fr; } .form-bottom { align-items:stretch; flex-direction:column; } .send-column { justify-items:stretch; } .send-button { width:100%; } .form-status { max-width:none; text-align:left; } .contact-form { padding:16px; } }
   @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }
 </style>
