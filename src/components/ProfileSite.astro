@@ -18,13 +18,12 @@ const canonical = new URL(pathFor(lang), data.siteUrl).toString();
 const imageUrl = new URL(data.photo, data.siteUrl).toString();
 const alternate = (language: Language) => new URL(pathFor(language), data.siteUrl).toString();
 const locationPlain = copy.locationHtml.replace(/<br\s*\/?\s*>/gi, ' · ').replace(/&nbsp;/g, ' ');
-const legalLinks = {
-  en: { privacy: 'Privacy Policy', legal: 'Legal Notice' },
-  es: { privacy: 'Política de privacidad', legal: 'Aviso legal' },
-  de: { privacy: 'Datenschutzerklärung', legal: 'Impressum' },
+const legalLinkLabel = {
+  en: 'Privacy & Legal Notice',
+  es: 'Privacidad y aviso legal',
+  de: 'Datenschutz und Impressum',
 }[lang];
 const privacyHref = lang === 'en' ? '/privacy/' : `/${lang}/privacy/`;
-const legalHref = lang === 'en' ? '/legal/' : `/${lang}/legal/`;
 ---
 
 <!doctype html>
@@ -144,18 +143,10 @@ const legalHref = lang === 'en' ? '/legal/' : `/${lang}/legal/`;
         </section>
 
         <section class="contact" id="contact" aria-labelledby="contact-title">
-          <div class="contact-intro">
+          <div>
             <p class="eyebrow">{copy.contactEyebrow}</p>
             <h2 id="contact-title">{copy.contactTitle}</h2>
             <p>{copy.contactText}</p>
-            <img
-              class="exali-badge"
-              src="/exali-haftpflicht-sicher.png"
-              width="88"
-              height="103"
-              loading="lazy"
-              alt="Professional liability insurance by exali"
-            />
           </div>
           <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} lang={lang} />
         </section>
@@ -163,8 +154,7 @@ const legalHref = lang === 'en' ? '/legal/' : `/${lang}/legal/`;
         <footer class="legal-footer" aria-label="Legal links">
           <span>© 2026 Oleg Fadeev</span>
           <nav>
-            <a href={privacyHref}>{legalLinks.privacy}</a>
-            <a href={legalHref}>{legalLinks.legal}</a>
+            <a href={privacyHref}>{legalLinkLabel}</a>
           </nav>
         </footer>
       </article>
@@ -462,28 +452,6 @@ const legalHref = lang === 'en' ? '/legal/' : `/${lang}/legal/`;
     .contact::before { top:-12px; }
     .send-column { width:100%; justify-items:stretch; }
     .captcha-block,#turnstile-widget { justify-items:start; }
-  }
-
-
-  .contact-intro {
-    align-self:stretch;
-    display:flex;
-    flex-direction:column;
-  }
-
-  .exali-badge {
-    display:block;
-    width:88px;
-    height:auto;
-    margin-top:24px;
-    object-fit:contain;
-  }
-
-  @media (max-width:780px) {
-    .exali-badge {
-      width:80px;
-      margin-top:20px;
-    }
   }
 
 </style>
