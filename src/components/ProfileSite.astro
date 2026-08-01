@@ -143,10 +143,18 @@ const privacyHref = lang === 'en' ? '/privacy/' : `/${lang}/privacy/`;
         </section>
 
         <section class="contact" id="contact" aria-labelledby="contact-title">
-          <div>
+          <div class="contact-intro">
             <p class="eyebrow">{copy.contactEyebrow}</p>
             <h2 id="contact-title">{copy.contactTitle}</h2>
             <p>{copy.contactText}</p>
+            <img
+              class="exali-badge"
+              src="/exali-haftpflicht-sicher.png"
+              width="88"
+              height="103"
+              loading="lazy"
+              alt="Professional liability insurance by exali"
+            />
           </div>
           <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} lang={lang} />
         </section>
@@ -526,4 +534,26 @@ const privacyHref = lang === 'en' ? '/privacy/' : `/${lang}/privacy/`;
     .legal-footer { padding:12px 24px 18px; align-items:flex-start; flex-direction:column; }
     .legal-footer nav { gap:12px; }
   }
+
+  .contact-intro {
+    align-self:stretch;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .exali-badge {
+    display:block;
+    width:88px;
+    height:auto;
+    margin-top:24px;
+    object-fit:contain;
+  }
+
+  @media (max-width:780px) {
+    .exali-badge {
+      width:80px;
+      margin-top:20px;
+    }
+  }
+
 </style>
