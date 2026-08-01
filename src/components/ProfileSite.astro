@@ -1,6 +1,7 @@
 ---
 import { getEntry } from 'astro:content';
 import ContactForm from './ContactForm.astro';
+import CookieNotice from './CookieNotice.astro';
 
 type Language = 'en' | 'es' | 'de';
 interface Props { lang: Language }
@@ -17,12 +18,13 @@ const canonical = new URL(pathFor(lang), data.siteUrl).toString();
 const imageUrl = new URL(data.photo, data.siteUrl).toString();
 const alternate = (language: Language) => new URL(pathFor(language), data.siteUrl).toString();
 const locationPlain = copy.locationHtml.replace(/<br\s*\/?\s*>/gi, ' · ').replace(/&nbsp;/g, ' ');
-const privacyHref = lang === 'en' ? '/privacy/' : `/${lang}/privacy/`;
-const privacyLabel = {
-  en: 'Privacy & Legal Notice',
-  es: 'Privacidad y aviso legal',
-  de: 'Datenschutz und Impressum',
+const legalLinks = {
+  en: { privacy: 'Privacy Policy', legal: 'Legal Notice' },
+  es: { privacy: 'Política de privacidad', legal: 'Aviso legal' },
+  de: { privacy: 'Datenschutzerklärung', legal: 'Impressum' },
 }[lang];
+const privacyHref = lang === 'en' ? '/privacy/' : `/${lang}/privacy/`;
+const legalHref = lang === 'en' ? '/legal/' : `/${lang}/legal/`;
 ---
 
 <!doctype html>
@@ -158,12 +160,16 @@ const privacyLabel = {
           <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} lang={lang} />
         </section>
 
-        <footer class="site-footer">
-          <p>© 2026 Oleg Fadeev</p>
-          <a href={privacyHref}>{privacyLabel}</a>
+        <footer class="legal-footer" aria-label="Legal links">
+          <span>© 2026 Oleg Fadeev</span>
+          <nav>
+            <a href={privacyHref}>{legalLinks.privacy}</a>
+            <a href={legalHref}>{legalLinks.legal}</a>
+          </nav>
         </footer>
       </article>
     </main>
+    <CookieNotice lang={lang} />
   </body>
 </html>
 
@@ -240,6 +246,176 @@ const privacyLabel = {
   @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }
 
 
+  /* Desktop proportions: compact centred business-card layout */
+  html { background:#06152f; }
+  body {
+    background:
+      radial-gradient(circle at 18% 11%, rgba(57,151,255,.28), transparent 31rem),
+      radial-gradient(circle at 84% 84%, rgba(31,151,255,.12), transparent 33rem),
+      linear-gradient(125deg,#06152f 0%,#092d64 52%,#061630 100%);
+  }
+  .page {
+    width:100%;
+    min-height:100svh;
+    max-width:none;
+    padding:10px 26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .shell {
+    width:min(900px, calc(100vw - 52px));
+    margin:0 auto;
+    border-radius:20px;
+    box-shadow:0 28px 70px rgba(1,11,31,.42), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .shell::before { width:34rem; height:34rem; top:-23rem; right:-18rem; box-shadow:0 0 0 38px rgba(115,190,255,.035),0 0 0 76px rgba(115,190,255,.02); }
+  .shell::after { width:19rem; height:19rem; left:-12rem; bottom:6rem; }
+  .topbar { padding:16px 46px 0; }
+  .site-label { font-size:.59rem; letter-spacing:.17em; }
+  .language summary { min-height:34px; padding:0 11px; font-size:.62rem; }
+  .language summary svg { width:12px; height:12px; }
+  .language ul { width:140px; padding:5px; border-radius:12px; }
+  .language a { padding:8px 9px; border-radius:8px; font-size:.68rem; }
+  .language small { font-size:.57rem; }
+
+  .hero {
+    min-height:500px;
+    grid-template-columns:minmax(0,1.05fr) minmax(230px,.95fr);
+    gap:32px;
+    padding:30px 48px 36px;
+  }
+  .hero-copy { max-width:440px; }
+  .eyebrow { margin-bottom:10px; font-size:.56rem; letter-spacing:.15em; }
+  h1 {
+    max-width:410px;
+    font-size:clamp(3.4rem, 5.6vw, 4.55rem);
+    letter-spacing:-.082em;
+    line-height:.88;
+  }
+  .role { max-width:470px; margin-top:12px; font-size:1rem; line-height:1.24; }
+  .summary { max-width:455px; margin-top:10px; font-size:.76rem; line-height:1.55; }
+  .focus-list { gap:6px; margin-top:15px; }
+  .focus-list li { padding:6px 9px; font-size:.52rem; }
+  .hero-links { gap:9px; margin-top:17px; }
+  .primary-link,.contact-jump { min-height:38px; padding:8px 12px; border-radius:11px; font-size:.67rem; }
+
+  .portrait-stage { min-height:250px; }
+  .portrait-backdrop { width:235px; height:235px; box-shadow:0 0 0 9px rgba(83,180,255,.055),0 0 0 18px rgba(83,180,255,.025),inset 0 1px 0 rgba(255,255,255,.07); }
+  .portrait-frame { width:188px; border-width:4px; box-shadow:0 0 0 5px rgba(26,95,180,.46),0 14px 28px rgba(0,0,0,.38),0 0 20px rgba(57,160,255,.2); }
+  .portrait-chip { right:0; bottom:-1px; max-width:128px; padding:8px 9px; border-radius:10px; font-size:.47rem; }
+  .portrait-chip strong { font-size:.47rem; }
+
+  .contact {
+    grid-template-columns:minmax(190px,.72fr) minmax(0,1.28fr);
+    gap:34px;
+    align-items:center;
+    min-height:282px;
+    padding:34px 48px 38px;
+  }
+  .contact .eyebrow { margin-bottom:8px; font-size:.56rem; }
+  .contact h2 { max-width:260px; font-size:clamp(1.8rem,2.4vw,2.48rem); letter-spacing:-.078em; }
+  .contact > div > p:not(.eyebrow) { max-width:255px; margin-top:12px; font-size:.72rem; line-height:1.54; }
+  .contact-form { gap:9px; padding:13px; border-radius:14px; }
+  .field-row { gap:9px; }
+  .contact-form label { gap:5px; font-size:.59rem; }
+  .contact-form input { min-height:35px; padding:0 10px; border-radius:10px; font-size:.74rem; }
+  .contact-form textarea { min-height:56px; padding:9px 10px; border-radius:10px; font-size:.74rem; }
+  .form-bottom { gap:10px; }
+  .secure-note { font-size:.58rem; line-height:1.35; }
+  .secure-note::before { width:18px; height:18px; border-radius:6px; }
+  .send-button { min-height:36px; padding:0 12px; border-radius:10px; font-size:.68rem; }
+  .form-status { font-size:.62rem; }
+  .captcha-block { max-width:250px; }
+  #turnstile-widget { transform:scale(.82); transform-origin:top left; min-height:54px; }
+
+  @media (max-width:780px) {
+    .page { padding:0; }
+    .shell { width:100%; min-height:100svh; border-radius:0; }
+    .topbar { padding:20px 20px 0; }
+    .hero { min-height:auto; grid-template-columns:1fr; padding:42px 20px 50px; gap:28px; }
+    .portrait-stage { min-height:250px; }
+    .contact { min-height:auto; grid-template-columns:1fr; padding:38px 20px; }
+    .contact h2 { max-width:330px; }
+  }
+
+
+
+  /* Wide desktop layout: keeps the complete card visible without vertical scrolling. */
+  @media (min-width:781px) {
+    .page { padding:10px 24px; }
+    .shell { width:min(1232px, calc(100vw - 48px)); border-radius:23px; }
+    .topbar { padding:14px 57px 0; }
+    .hero {
+      min-height:412px;
+      grid-template-columns:minmax(0,1.16fr) minmax(290px,.84fr);
+      gap:28px;
+      padding:22px 57px 24px;
+    }
+    .hero-copy { max-width:540px; }
+    h1 { max-width:510px; font-size:clamp(3.05rem,4.15vw,4.25rem); line-height:.9; }
+    .role { max-width:560px; margin-top:11px; font-size:.98rem; }
+    .summary { max-width:560px; margin-top:8px; font-size:.76rem; line-height:1.48; }
+    .focus-list { margin-top:13px; }
+    .hero-links { margin-top:15px; }
+    .portrait-stage { min-height:214px; }
+    .portrait-backdrop { width:214px; height:214px; }
+    .portrait-frame { width:170px; }
+    .portrait-chip { right:8px; bottom:-3px; }
+    .contact {
+      grid-template-columns:minmax(240px,.67fr) minmax(0,1.33fr);
+      gap:42px;
+      min-height:248px;
+      padding:25px 57px 28px;
+    }
+    .contact h2 { max-width:320px; font-size:clamp(1.7rem,2.15vw,2.28rem); }
+    .contact > div > p:not(.eyebrow) { max-width:300px; margin-top:10px; font-size:.71rem; }
+    .contact-form { padding:12px; }
+    .contact-form textarea { min-height:54px; }
+  }
+
+  /* Extra compact vertical rhythm for common laptop-height screens. */
+  @media (min-width:781px) and (max-height:900px) {
+    .page { padding:8px 24px; }
+    .topbar { padding-top:12px; }
+    .hero { min-height:390px; padding-top:18px; padding-bottom:20px; }
+    .eyebrow { margin-bottom:8px; }
+    h1 { font-size:clamp(2.85rem,3.85vw,3.95rem); }
+    .role { margin-top:9px; font-size:.92rem; }
+    .summary { margin-top:7px; font-size:.72rem; }
+    .focus-list { margin-top:11px; }
+    .hero-links { margin-top:13px; }
+    .portrait-stage { min-height:196px; }
+    .portrait-backdrop { width:196px; height:196px; }
+    .portrait-frame { width:155px; }
+    .portrait-chip { max-width:121px; padding:7px 8px; font-size:.45rem; }
+    .portrait-chip strong { font-size:.45rem; }
+    .contact { min-height:232px; padding-top:20px; padding-bottom:22px; }
+    .contact h2 { font-size:clamp(1.55rem,1.95vw,2.05rem); }
+    .contact-form { gap:8px; padding:11px; }
+    .contact-form input { min-height:33px; }
+    .contact-form textarea { min-height:50px; }
+    .send-button { min-height:34px; }
+  }
+
+
+  /* Desktop visual scale: at browser zoom 100%, match the previous 110% view. */
+  @media (min-width:781px) {
+    .shell {
+      zoom:1.1;
+    }
+  }
+
+  /* Avoid horizontal overflow on narrower desktop windows. */
+  @media (min-width:781px) and (max-width:1450px) {
+    .shell {
+      zoom:1;
+      width:min(1355px, calc(100vw - 42px));
+    }
+  }
+
+
+
   /* Visual refinement: quieter hierarchy, cleaner photo treatment and a softer form section. */
   .topbar { justify-content:flex-end; min-height:46px; }
   .site-label { display:none; }
@@ -288,6 +464,7 @@ const privacyLabel = {
     .captcha-block,#turnstile-widget { justify-items:start; }
   }
 
+
   .contact-intro {
     align-self:stretch;
     display:flex;
@@ -302,34 +479,83 @@ const privacyLabel = {
     object-fit:contain;
   }
 
-  .site-footer {
+  @media (max-width:780px) {
+    .exali-badge {
+      width:80px;
+      margin-top:20px;
+    }
+  }
+
+</style>
+
+<style is:global>
+  /* Final layout adjustment: keep the refined design, scaled down about 5% on desktop. */
+  @media (min-width:781px) {
+    .shell {
+      width:min(1170px, calc(100vw - 48px));
+    }
+  }
+  @media (min-width:781px) and (max-width:1450px) {
+    .shell {
+      width:min(1287px, calc(100vw - 42px));
+    }
+  }
+
+  /* Contact action row: verification stays on the left and the send action sits slightly lower on the right. */
+  .form-bottom {
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:space-between;
-    gap:20px;
-    padding:16px 57px 18px;
-    color:#8098b5;
-    background:#f4f6f9;
-    border-top:1px solid #d8e3ee;
-    font-size:.72rem;
+    gap:18px;
+  }
+  .form-support {
+    min-width:0;
+    display:grid;
+    justify-items:start;
+  }
+  .captcha-block {
+    width:250px;
+    max-width:100%;
+    display:grid;
+    justify-items:start;
+  }
+  #turnstile-widget {
+    width:250px;
+    max-width:100%;
+    min-height:65px;
+    display:grid;
+    justify-items:start;
+    transform-origin:top left;
+  }
+  .send-column {
+    width:auto;
+    min-width:146px;
+    margin-top:12px;
+    justify-items:end;
+  }
+  @media (max-width:780px) {
+    .form-bottom { flex-direction:column; align-items:stretch; }
+    .form-support,.captcha-block,#turnstile-widget { width:100%; justify-items:start; }
+    .send-column { width:100%; min-width:0; margin-top:0; justify-items:stretch; }
   }
 
-  .site-footer p {
-    margin:0;
-  }
 
-  .site-footer a {
-    color:#365a83;
-    font-weight:800;
-    text-decoration:none;
-  }
-
-  .site-footer a:hover {
-    color:#1265cd;
-    text-decoration:underline;
-  }
+  .legal-footer { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 57px 18px; color:#8da8c4; background:#f4f6f9; border-top:1px solid rgba(190,214,238,.72); font-size:.72rem; }
+  .legal-footer nav { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .legal-footer a { color:#315f90; text-decoration:none; font-weight:800; }
+  .legal-footer a:hover { color:#1265cd; text-decoration:underline; }
+  .privacy-check { grid-template-columns:auto 1fr !important; align-items:flex-start; gap:9px !important; color:#60799c !important; font-size:.66rem !important; line-height:1.42; letter-spacing:0 !important; font-weight:600 !important; }
+  .privacy-check input { width:15px !important; height:15px !important; min-height:15px !important; margin:2px 0 0; padding:0 !important; accent-color:#1978cf; }
+  .privacy-check a { color:#1265cd; font-weight:800; text-decoration:underline; text-underline-offset:2px; }
+  .contact-form [hidden] { display:none !important; }
+  .contact-form [data-form-fields] { display:grid; gap:10px; }
+  .form-message { min-height:184px; display:grid; place-items:center; align-content:center; gap:12px; text-align:center; color:#173d68; }
+  .form-message span { display:grid; place-items:center; width:44px; height:44px; border-radius:50%; color:#fff; background:linear-gradient(135deg,#258eff,#1265cd); font-size:1.3rem; font-weight:900; box-shadow:0 12px 28px rgba(0,82,185,.24); }
+  .form-message strong { max-width:340px; color:#143b67; font-size:1.05rem; line-height:1.35; }
+  .form-message--success span { background:linear-gradient(135deg,#23b985,#137652); }
 
   @media (max-width:780px) {
-  
-
+    .legal-footer { padding:12px 24px 18px; align-items:flex-start; flex-direction:column; }
+    .legal-footer nav { gap:12px; }
+  }
 </style>
