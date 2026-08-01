@@ -16,6 +16,12 @@ const pathFor = (language: Language) => language === 'en' ? '/' : `/${language}/
 const canonical = new URL(pathFor(lang), data.siteUrl).toString();
 const imageUrl = new URL(data.photo, data.siteUrl).toString();
 const alternate = (language: Language) => new URL(pathFor(language), data.siteUrl).toString();
+const privacyHref = lang === 'en' ? '/privacy/' : `/${lang}/privacy/`;
+const privacyLabel = {
+  en: 'Privacy & Legal Notice',
+  es: 'Privacidad y aviso legal',
+  de: 'Datenschutz und Impressum',
+}[lang];
 ---
 
 <!doctype html>
@@ -152,6 +158,11 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
           </div>
           <ContactForm endpoint={endpoint} turnstileSiteKey={turnstileSiteKey} copy={copy} lang={lang} />
         </section>
+
+        <footer class="site-footer">
+          <p>© 2026 Oleg Fadeev</p>
+          <a href={privacyHref}>{privacyLabel}</a>
+        </footer>
       </article>
     </main>
   </body>
@@ -207,6 +218,49 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
   .contact > div > p:not(.eyebrow) { max-width:365px; margin:14px 0 0; color:#60799c; font-size:.92rem; line-height:1.62; }
   .contact-intro { align-self:stretch; display:flex; flex-direction:column; }
   .exali-badge { display:block; width:92px; height:auto; margin-top:28px; object-fit:contain; }
+
+  .privacy-check {
+    display:flex !important;
+    grid-template-columns:none !important;
+    align-items:flex-start;
+    gap:9px !important;
+    margin-top:2px;
+    color:#456486;
+    font-size:.68rem !important;
+    font-weight:700 !important;
+    letter-spacing:0 !important;
+    line-height:1.45;
+  }
+  .privacy-check input[type="checkbox"] {
+    appearance:auto;
+    -webkit-appearance:checkbox;
+    width:16px !important;
+    height:16px !important;
+    min-height:0 !important;
+    flex:0 0 16px;
+    margin:2px 0 0;
+    padding:0 !important;
+    border-radius:3px !important;
+    box-shadow:none !important;
+    background:#fff;
+  }
+  .privacy-check span { display:block; min-width:0; }
+  .privacy-check a { color:#1265cd; font-weight:800; }
+
+  .site-footer {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:18px clamp(24px,5vw,72px);
+    color:#8098b5;
+    background:var(--paper);
+    border-top:1px solid #dce9f7;
+    font-size:.78rem;
+  }
+  .site-footer p { margin:0; }
+  .site-footer a { color:#365a83; font-weight:800; text-decoration:none; }
+  .site-footer a:hover { color:#1265cd; text-decoration:underline; }
   .contact-form { display:grid; gap:14px; padding:22px; border:1px solid #dce9f7; border-radius:19px; background:#fff; box-shadow:0 16px 38px rgba(24,69,119,.08),inset 0 1px 0 rgba(255,255,255,.86); }
   .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .contact-form label { display:grid; gap:7px; color:#456486; font-size:.7rem; font-weight:800; letter-spacing:.04em; }
@@ -228,6 +282,6 @@ const alternate = (language: Language) => new URL(pathFor(language), data.siteUr
   .form-status.is-error { color:#b22935; }
   .honeypot { position:absolute; left:-9999px; width:1px; height:1px; opacity:0; pointer-events:none; }
   @media (min-width:1180px) { .focus-list { gap:11px; } .focus-list li { padding:10px 14px; font-size:.71rem; } .field-row { gap:16px; } }
-  @media (max-width:780px) { .exali-badge { width:82px; margin-top:22px; } .page { padding:0; align-items:stretch; } .shell { min-height:100svh; border-radius:0; border-inline:0; } .topbar { padding:20px 20px 0; } .site-label { font-size:.61rem; letter-spacing:.13em; } .language summary { min-height:38px; padding:0 12px; } .hero { grid-template-columns:1fr; padding:46px 20px 52px; gap:28px; } .hero-copy { order:2; } .portrait-stage { order:1; min-height:250px; } h1 { font-size:clamp(3.15rem,15vw,5.2rem); } .portrait-frame { width:215px; } .portrait-backdrop { width:255px; height:255px; } .portrait-chip { right:0; bottom:5px; } .contact { grid-template-columns:1fr; padding:38px 20px; } .field-row { grid-template-columns:1fr; } .form-bottom { align-items:stretch; flex-direction:column; } .send-column { justify-items:stretch; } .send-button { width:100%; } .form-status { max-width:none; text-align:left; } .contact-form { padding:16px; } }
+  @media (max-width:780px) { .exali-badge { width:82px; margin-top:22px; } .site-footer { flex-direction:column; align-items:flex-start; gap:8px; padding:16px 20px 20px; } .page { padding:0; align-items:stretch; } .shell { min-height:100svh; border-radius:0; border-inline:0; } .topbar { padding:20px 20px 0; } .site-label { font-size:.61rem; letter-spacing:.13em; } .language summary { min-height:38px; padding:0 12px; } .hero { grid-template-columns:1fr; padding:46px 20px 52px; gap:28px; } .hero-copy { order:2; } .portrait-stage { order:1; min-height:250px; } h1 { font-size:clamp(3.15rem,15vw,5.2rem); } .portrait-frame { width:215px; } .portrait-backdrop { width:255px; height:255px; } .portrait-chip { right:0; bottom:5px; } .contact { grid-template-columns:1fr; padding:38px 20px; } .field-row { grid-template-columns:1fr; } .form-bottom { align-items:stretch; flex-direction:column; } .send-column { justify-items:stretch; } .send-button { width:100%; } .form-status { max-width:none; text-align:left; } .contact-form { padding:16px; } }
   @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }
 </style>
