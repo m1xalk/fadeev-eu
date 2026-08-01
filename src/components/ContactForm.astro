@@ -24,8 +24,9 @@ interface Props {
 
 const { endpoint, turnstileSiteKey, copy, lang } = Astro.props;
 const configured = endpoint.startsWith('https://formspree.io/f/') && turnstileSiteKey.length > 0;
-const privacyHref = lang === 'en' ? '/privacy/' : `/${lang}/privacy/`;
-const privacyCopy = {
+const normalizedLang: Language = lang === 'es' || lang === 'de' ? lang : 'en';
+const privacyHref = normalizedLang === 'en' ? '/privacy/' : `/${normalizedLang}/privacy/`;
+const privacyCopies = {
   en: {
     label: 'I have read the Privacy & Legal Notice and understand that my name, email address and message will be processed to reply to my enquiry.',
     link: 'Privacy & Legal Notice',
@@ -41,7 +42,8 @@ const privacyCopy = {
     link: 'Datenschutz und Impressum',
     success: 'Vielen Dank — Ihre Nachricht wurde gesendet.',
   },
-}[lang];
+} as const;
+const privacyCopy = privacyCopies[normalizedLang];
 ---
 
 <form
